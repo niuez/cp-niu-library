@@ -1,0 +1,675 @@
+<!DOCTYPE HTML>
+<html lang="ja" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Splay Tree Array - cp-niu-library</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../math/index.html"><strong aria-hidden="true">1.</strong> Math</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../math/matrix.html"><strong aria-hidden="true">1.1.</strong> Matrix</a></li><li class="chapter-item expanded "><a href="../math/modint.html"><strong aria-hidden="true">1.2.</strong> Modint</a></li></ol></li><li class="chapter-item expanded "><a href="../data_structure/index.html"><strong aria-hidden="true">2.</strong> Data Structure</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../data_structure/segment_tree.html"><strong aria-hidden="true">2.1.</strong> Segment Tree</a></li><li class="chapter-item expanded "><a href="../data_structure/splay_tree_array.html" class="active"><strong aria-hidden="true">2.2.</strong> Splay Tree Array</a></li><li class="chapter-item expanded "><a href="../data_structure/sparse_table.html"><strong aria-hidden="true">2.3.</strong> Sparse Table</a></li><li class="chapter-item expanded "><a href="../data_structure/union_find.html"><strong aria-hidden="true">2.4.</strong> Union Find</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">cp-niu-library</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="splay-tree-array"><a class="header" href="#splay-tree-array">Splay Tree Array</a></h1>
+<h2 id="tests"><a class="header" href="#tests">Tests</a></h2>
+<h2 id="niu"><a class="header" href="#niu">Niu</a></h2>
+<pre><code>import &quot;std/u64.niu&quot;
+import &quot;std/shared_ptr.niu&quot;
+import &quot;std/weak_ptr.niu&quot;
+import &quot;std/vec.niu&quot;
+import &quot;std/bool.niu&quot;
+
+trait Monoid where Self: Clone {
+  fn op(self: &amp;Self, right: &amp;Self) -&gt; Self;
+  fn ide() -&gt; Self;
+}
+
+fn swap&lt;T&gt;(a: &amp;mut T, b: &amp;mut T) -&gt; void $${std::swap($arg(a), $arg(b))}$$
+
+fn node_size&lt;T&gt;(ptr: &amp;SharedPtr&lt;StaNode&lt;T&gt;&gt;) -&gt; u64 where T: Monoid {
+  if ptr.test() {
+    ptr.get_ref().sz
+  }
+  else {
+    0
+  }
+}
+
+fn node_fold&lt;T&gt;(ptr: &amp;SharedPtr&lt;StaNode&lt;T&gt;&gt;) -&gt; T where T: Monoid {
+  if ptr.test() { ptr.get_ref().fold.clone() }
+  else { T::ide() }
+}
+
+struct StaNode&lt;T&gt; where T: Monoid {
+  val: T,
+  fold: T,
+  sz: u64,
+  left: SharedPtr&lt;StaNode&lt;T&gt;&gt;,
+  right: SharedPtr&lt;StaNode&lt;T&gt;&gt;,
+  parent: WeakPtr&lt;StaNode&lt;T&gt;&gt;,
+} {
+  fn init(val: T) -&gt; Self {
+    StaNode {
+      val: val.clone(),
+      fold: val.clone(),
+      sz: 1,
+      left: SharedPtr::empty(),
+      right: SharedPtr::empty(),
+      parent: WeakPtr::empty(),
+    }
+  }
+  fn child(self: &amp;Self, dir: u64) -&gt; &amp;SharedPtr&lt;StaNode&lt;T&gt;&gt; {
+    if dir == 0 { &amp;self.left }
+    else { &amp;self.right }
+  }
+  fn fix(self: &amp;mut Self) -&gt; void {
+    self.sz = node_size(&amp;self.left) + 1 + node_size(&amp;self.right);
+    self.fold = node_fold(&amp;self.left).op(&amp;self.val).op(&amp;node_fold(&amp;self.right));
+  }
+}
+
+struct SplayTreeArray&lt;T&gt; where T: Monoid{
+  root: SharedPtr&lt;StaNode&lt;T&gt;&gt;,
+} {
+  fn set(par: &amp;SharedPtr&lt;StaNode&lt;T&gt;&gt;, dir: u64, mut new_ch: SharedPtr&lt;StaNode&lt;T&gt;&gt;) -&gt; SharedPtr&lt;StaNode&lt;T&gt;&gt; {
+    if new_ch.test() { new_ch.get_mut().parent = WeakPtr::from_shared(par); }
+    if dir == 0 {
+      swap(&amp;mut par.get_mut().left, &amp;mut new_ch);
+    }
+    else {
+      swap(&amp;mut par.get_mut().right, &amp;mut new_ch);
+    }
+    par.get_mut().fix();
+    new_ch
+  }
+  fn parent_dir(node: &amp;SharedPtr&lt;StaNode&lt;T&gt;&gt;) -&gt; u64 {
+    let par = node.get_ref().parent.lock();
+    if par.test() {
+      if par.get_ref().left == *node { 0 }
+      else { 1 }
+    }
+    else {
+      2
+    }
+  }
+  fn rotate(x: &amp;SharedPtr&lt;StaNode&lt;T&gt;&gt;, dir: u64) -&gt; void {
+    let p = x.get_ref().parent.lock();
+    let q = p.get_ref().parent.lock();
+    SplayTreeArray::set(&amp;p, dir ^ 1, x.get_ref().child(dir).clone());
+    let p_dir = SplayTreeArray::parent_dir(&amp;p);
+    if p_dir != 2 {
+      SplayTreeArray::set(&amp;q, p_dir, x.clone());
+    }
+    else {
+      x.get_mut().parent = WeakPtr::empty();
+    }
+    SplayTreeArray::set(x, dir, p);
+  }
+  fn splay(x: &amp;SharedPtr&lt;StaNode&lt;T&gt;&gt;) -&gt; void {
+    if x.test() {
+      for i = 0; !x.get_ref().parent.expired(); i = i + 1 {
+        let dir = SplayTreeArray::parent_dir(x);
+        let eir = SplayTreeArray::parent_dir(&amp;x.get_ref().parent.lock());
+        if eir == 2 {
+          SplayTreeArray::rotate(x, dir ^ 1);
+        }
+        else if dir == eir {
+          SplayTreeArray::rotate(&amp;x.get_ref().parent.lock(), eir ^ 1);
+          SplayTreeArray::rotate(x, eir ^ 1);
+        }
+        else {
+          SplayTreeArray::rotate(x, dir ^ 1);
+          SplayTreeArray::rotate(x, eir ^ 1);
+        }
+      }
+    }
+  }
+  fn find_(x: &amp;SharedPtr&lt;StaNode&lt;T&gt;&gt;, mut i: u64) -&gt; SharedPtr&lt;StaNode&lt;T&gt;&gt; {
+    let mut z = x.clone();
+    for cnt = 0; z.test(); cnt = cnt + 1 {
+      let left_size = node_size(&amp;z.get_ref().left);
+      if left_size == i {
+        SplayTreeArray::splay(&amp;z);
+        break;
+      }
+      else if left_size &lt; i {
+        i = i - (left_size + 1);
+        z = z.get_ref().right.clone();
+      }
+      else {
+        z = z.get_ref().left.clone();
+      }
+    }
+    z
+  }
+
+  fn split_(x: SharedPtr&lt;StaNode&lt;T&gt;&gt;, i: u64) -&gt; (SharedPtr&lt;StaNode&lt;T&gt;&gt;, SharedPtr&lt;StaNode&lt;T&gt;&gt;) {
+    if i == 0 { (SharedPtr::empty(), x) }
+    else if i == node_size(&amp;x) { (x, SharedPtr::empty()) }
+    else {
+      let l = SplayTreeArray::find_(&amp;x, i - 1);
+      let r = SplayTreeArray::set(&amp;l, 1, SharedPtr::empty());
+      (l, r)
+    }
+  }
+
+  fn merge_(mut l: SharedPtr&lt;StaNode&lt;T&gt;&gt;, r: SharedPtr&lt;StaNode&lt;T&gt;&gt;) -&gt; SharedPtr&lt;StaNode&lt;T&gt;&gt; {
+    if !l.test() { l = r; }
+    else if r.test() {
+      l = SplayTreeArray::find_(&amp;l, node_size(&amp;l) - 1);
+      SplayTreeArray::set(&amp;l, 1, r);
+    }
+    l
+  }
+  fn empty(t: T) -&gt; Self {
+    SplayTreeArray { root: SharedPtr::empty() }
+  }
+  fn once(t: T) -&gt; Self {
+    SplayTreeArray { root: SharedPtr::init(StaNode::init(t)) }
+  }
+  fn split(self: Self, i: u64) -&gt; (Self, Self) {
+    let (l, r) = SplayTreeArray::split_(self.root, i);
+    (SplayTreeArray { root: l }, SplayTreeArray { root: r })
+  }
+  fn merge(self: Self, right: Self) -&gt; Self {
+    SplayTreeArray { root: SplayTreeArray::merge_(self.root, right.root) }
+  }
+  fn size(self: &amp;Self) -&gt; u64 {
+    node_size(&amp;self.root)
+  }
+  fn get(self: &amp;mut Self, i: u64) -&gt; &amp;T {
+    self.root = SplayTreeArray::find_(&amp;self.root, i);
+    &amp;self.root.get_ref().val
+  }
+  fn fold(self: &amp;Self) -&gt; T {
+    node_fold(&amp;self.root)
+  }
+}
+
+#include &lt;iostream&gt;
+fn println&lt;T&gt;(t: &amp;T) -&gt; void $${std::cout &lt;&lt; $arg(t) &lt;&lt; std::endl;}$$
+
+impl Monoid for u64 {
+  fn op(self: &amp;u64, right: &amp;u64) -&gt; u64 {
+    *self + *right
+  }
+  fn ide() -&gt; u64 { 0 }
+}
+
+fn main() -&gt; void {
+  let mut t0 = SplayTreeArray::once(0);
+  let t1 = SplayTreeArray::once(1);
+  let t2 = SplayTreeArray::once(2);
+  let t3 = SplayTreeArray::once(3);
+  let t4 = SplayTreeArray::once(4);
+
+  println(&amp;t0.size());
+  t0 = t0.merge(t1);
+  println(&amp;t0.size());
+  t0 = t0.merge(t2);
+  println(&amp;t0.size());
+  t0 = t0.merge(t3);
+  println(&amp;t0.size());
+  t0 = t0.merge(t4);
+  println(&amp;t0.size());
+
+  println(t0.get(4));
+  println(t0.get(3));
+  println(t0.get(2));
+  println(t0.get(1));
+  println(t0.get(0));
+  println(&amp;t0.fold());
+}
+</code></pre>
+<h2 id="c"><a class="header" href="#c">C++</a></h2>
+<pre><code class="language-cpp">#include &lt;algorithm&gt;
+#include &lt;iostream&gt;
+#include &lt;memory&gt;
+#include &lt;memory&gt;
+#include &lt;tuple&gt;
+#include &lt;type_traits&gt;
+#include &lt;vector&gt;
+
+template &lt;class T, class = void&gt; struct StaNode;
+template &lt;class T, class = void&gt; struct SplayTreeArray;
+template&lt;class Self, class = void&gt; struct Monoid: std::false_type { };
+template&lt;class Self, class = void&gt; struct Index: std::false_type { };
+template&lt;class Self, class = void&gt; struct IndexMut: std::false_type { };
+template&lt;class Self, class = void&gt; struct Clone: std::false_type { };
+template&lt;class Self, class = void&gt; struct Iterator: std::false_type { };
+template&lt;&gt; struct Monoid&lt;unsigned long long, void&gt;: std::true_type {
+
+static unsigned long long op(unsigned long long const&amp; self, unsigned long long const&amp; right);
+static unsigned long long ide();
+};
+template&lt;class T&gt; struct Index&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+using Arg = unsigned long long;
+ using Output = T;
+
+static T const&amp; index(std::vector&lt;T&gt; const&amp; self, unsigned long long i);
+};
+template&lt;class T&gt; struct IndexMut&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+
+static T&amp; index_mut(std::vector&lt;T&gt;&amp; self, unsigned long long i);
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+using Item = T;
+
+
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt; const&amp;, void&gt;: std::true_type {
+using Item = T const&amp;;
+
+
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt;&amp;, void&gt;: std::true_type {
+using Item = T&amp;;
+
+
+};
+template&lt;class T&gt; void swap(T&amp; a, T&amp; b);
+template&lt;class T, class = std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt; unsigned long long node_size(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; ptr);
+template&lt;class T, class = std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt; T node_fold(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; ptr);
+template&lt;class T&gt; void println(T const&amp; t);
+int main();
+template &lt;class T&gt; struct SplayTreeArray&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt; {
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; root;
+SplayTreeArray(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; root):root(root) { }
+SplayTreeArray(SplayTreeArray&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+SplayTreeArray&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp; operator=(SplayTreeArray&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+static std::shared_ptr&lt;StaNode&lt;T&gt;&gt; merge_(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; l, std::shared_ptr&lt;StaNode&lt;T&gt;&gt; r) {
+if(!(bool)(l)) {
+ l = std::move(r);
+}
+else if((bool)(r)) {
+ l = SplayTreeArray&lt;T&gt;::find_(l, node_size&lt;T&gt;(l)-1ull);
+SplayTreeArray&lt;T&gt;::set(l, 1ull, std::move(r));
+}
+;
+return l;
+}
+
+static void rotate(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; x, unsigned long long dir) {
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; p = (*x).parent.lock();
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; q = (*p).parent.lock();
+SplayTreeArray&lt;T&gt;::set(p, dir^1ull, StaNode&lt;T&gt;::child((*x), dir));
+unsigned long long p_dir = SplayTreeArray&lt;T&gt;::parent_dir(p);
+if(p_dir != 2ull) {
+ SplayTreeArray&lt;T&gt;::set(q, p_dir, x);
+}
+else {
+(*x).parent = std::weak_ptr&lt;StaNode&lt;T&gt;&gt;();
+}
+;
+SplayTreeArray&lt;T&gt;::set(x, dir, std::move(p));
+}
+
+static std::shared_ptr&lt;StaNode&lt;T&gt;&gt; set(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; par, unsigned long long dir, std::shared_ptr&lt;StaNode&lt;T&gt;&gt; new_ch) {
+if((bool)(new_ch)) {
+ (*new_ch).parent = std::weak_ptr&lt;StaNode&lt;T&gt;&gt;(par);
+}
+;
+if(dir == 0ull) {
+ std::swap((*par).left, new_ch);
+}
+else {
+std::swap((*par).right, new_ch);
+}
+;
+StaNode&lt;T&gt;::fix((*par));
+return new_ch;
+}
+
+static SplayTreeArray&lt;T&gt; empty(T t) {
+return SplayTreeArray&lt;T&gt;(std::shared_ptr&lt;StaNode&lt;T&gt;&gt;());
+}
+
+static std::tuple&lt;SplayTreeArray&lt;T&gt;, SplayTreeArray&lt;T&gt;&gt; split(SplayTreeArray&lt;T&gt; self, unsigned long long i) {
+auto [l, r] = SplayTreeArray&lt;T&gt;::split_(std::move(self.root), i);
+return std::tuple&lt;SplayTreeArray&lt;T&gt;, SplayTreeArray&lt;T&gt;&gt;{ SplayTreeArray&lt;T&gt;(std::move(l)), SplayTreeArray&lt;T&gt;(std::move(r)) };
+}
+
+static unsigned long long size(SplayTreeArray&lt;T&gt; const&amp; self) {
+return node_size&lt;T&gt;(self.root);
+}
+
+static T fold(SplayTreeArray&lt;T&gt; const&amp; self) {
+return node_fold&lt;T&gt;(self.root);
+}
+
+static std::shared_ptr&lt;StaNode&lt;T&gt;&gt; find_(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; x, unsigned long long i) {
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; z = x;
+for(unsigned long long cnt = 0ull; (bool)(z); cnt = cnt+1ull){
+unsigned long long left_size = node_size&lt;T&gt;((*z).left);
+if(left_size == i) {
+SplayTreeArray&lt;T&gt;::splay(z);
+break;
+}
+else if(left_size &lt; i) {
+i = i-(left_size+1ull);
+z = (*z).right;
+}
+else {
+z = (*z).left;
+}
+;
+};
+return z;
+}
+
+static SplayTreeArray&lt;T&gt; merge(SplayTreeArray&lt;T&gt; self, SplayTreeArray&lt;T&gt; right) {
+return SplayTreeArray&lt;T&gt;(SplayTreeArray&lt;T&gt;::merge_(std::move(self.root), std::move(right.root)));
+}
+
+static T const&amp; get(SplayTreeArray&lt;T&gt;&amp; self, unsigned long long i) {
+self.root = SplayTreeArray&lt;T&gt;::find_(self.root, i);
+return (*self.root).val;
+}
+
+static SplayTreeArray&lt;T&gt; once(T t) {
+return SplayTreeArray&lt;T&gt;(std::shared_ptr&lt;StaNode&lt;T&gt;&gt;(new StaNode&lt;T&gt;(StaNode&lt;T&gt;::init(std::move(t)))));
+}
+
+static unsigned long long parent_dir(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; node) {
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; par = (*node).parent.lock();
+if((bool)(par)) {
+if((*par).left == node) {
+return 0ull;
+}
+else {
+return 1ull;
+}
+;
+}
+else {
+return 2ull;
+}
+;
+}
+
+static void splay(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; x) {
+if((bool)(x)) {
+for(unsigned long long i = 0ull; !(*x).parent.expired(); i = i+1ull){
+unsigned long long dir = SplayTreeArray&lt;T&gt;::parent_dir(x);
+unsigned long long eir = SplayTreeArray&lt;T&gt;::parent_dir((*x).parent.lock());
+if(eir == 2ull) {
+SplayTreeArray&lt;T&gt;::rotate(x, dir^1ull);
+}
+else if(dir == eir) {
+SplayTreeArray&lt;T&gt;::rotate((*x).parent.lock(), eir^1ull);
+SplayTreeArray&lt;T&gt;::rotate(x, eir^1ull);
+}
+else {
+SplayTreeArray&lt;T&gt;::rotate(x, dir^1ull);
+SplayTreeArray&lt;T&gt;::rotate(x, eir^1ull);
+}
+;
+};
+}
+;
+}
+
+static std::tuple&lt;std::shared_ptr&lt;StaNode&lt;T&gt;&gt;, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;&gt; split_(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; x, unsigned long long i) {
+if(i == 0ull) {
+return std::tuple&lt;std::shared_ptr&lt;StaNode&lt;T&gt;&gt;, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;&gt;{ std::shared_ptr&lt;StaNode&lt;T&gt;&gt;(), std::move(x) };
+}
+else if(i == node_size&lt;T&gt;(x)) {
+return std::tuple&lt;std::shared_ptr&lt;StaNode&lt;T&gt;&gt;, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;&gt;{ std::move(x), std::shared_ptr&lt;StaNode&lt;T&gt;&gt;() };
+}
+else {
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; l = SplayTreeArray&lt;T&gt;::find_(x, i-1ull);
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; r = SplayTreeArray&lt;T&gt;::set(l, 1ull, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;());
+return std::tuple&lt;std::shared_ptr&lt;StaNode&lt;T&gt;&gt;, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;&gt;{ std::move(l), std::move(r) };
+}
+;
+}
+} ;
+template &lt;class T&gt; struct StaNode&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt; {
+T val;
+T fold;
+unsigned long long sz;
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; left;
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; right;
+std::weak_ptr&lt;StaNode&lt;T&gt;&gt; parent;
+StaNode(T val, T fold, unsigned long long sz, std::shared_ptr&lt;StaNode&lt;T&gt;&gt; left, std::shared_ptr&lt;StaNode&lt;T&gt;&gt; right, std::weak_ptr&lt;StaNode&lt;T&gt;&gt; parent):val(val), fold(fold), sz(sz), left(left), right(right), parent(parent) { }
+StaNode(StaNode&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+StaNode&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp; operator=(StaNode&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+static std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; child(StaNode&lt;T&gt; const&amp; self, unsigned long long dir) {
+if(dir == 0ull) {
+return self.left;
+}
+else {
+return self.right;
+}
+;
+}
+
+static void fix(StaNode&lt;T&gt;&amp; self) {
+self.sz = node_size&lt;T&gt;(self.left)+1ull+node_size&lt;T&gt;(self.right);
+self.fold = Monoid&lt;T&gt;::op(Monoid&lt;T&gt;::op(node_fold&lt;T&gt;(self.left), self.val), node_fold&lt;T&gt;(self.right));
+}
+
+static StaNode&lt;T&gt; init(T val) {
+return StaNode&lt;T&gt;(val, val, 1ull, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;(), std::shared_ptr&lt;StaNode&lt;T&gt;&gt;(), std::weak_ptr&lt;StaNode&lt;T&gt;&gt;());
+}
+} ;
+unsigned long long Monoid&lt;unsigned long long, void&gt;::op(unsigned long long const&amp; self, unsigned long long const&amp; right) {
+return self+right;
+}
+
+unsigned long long Monoid&lt;unsigned long long, void&gt;::ide() {
+return 0ull;
+}
+template&lt;class T&gt; T const&amp; Index&lt;std::vector&lt;T&gt;, void&gt;::index(std::vector&lt;T&gt; const&amp; self, unsigned long long i) {
+return self.at(i);
+}
+template&lt;class T&gt; T&amp; IndexMut&lt;std::vector&lt;T&gt;, void&gt;::index_mut(std::vector&lt;T&gt;&amp; self, unsigned long long i) {
+return self.at(i);
+}
+template&lt;class T, class&gt; unsigned long long node_size(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; ptr) {
+if((bool)(ptr)) {
+return (*ptr).sz;
+}
+else {
+return 0ull;
+}
+;
+}
+template&lt;class T, class&gt; T node_fold(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; ptr) {
+if((bool)(ptr)) {
+return (*ptr).fold;
+}
+else {
+return Monoid&lt;T&gt;::ide();
+}
+;
+}
+int main() {
+SplayTreeArray&lt;unsigned long long&gt; t0 = SplayTreeArray&lt;unsigned long long&gt;::once(0ull);
+SplayTreeArray&lt;unsigned long long&gt; t1 = SplayTreeArray&lt;unsigned long long&gt;::once(1ull);
+SplayTreeArray&lt;unsigned long long&gt; t2 = SplayTreeArray&lt;unsigned long long&gt;::once(2ull);
+SplayTreeArray&lt;unsigned long long&gt; t3 = SplayTreeArray&lt;unsigned long long&gt;::once(3ull);
+SplayTreeArray&lt;unsigned long long&gt; t4 = SplayTreeArray&lt;unsigned long long&gt;::once(4ull);
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::size(t0) &lt;&lt; std::endl;;
+t0 = SplayTreeArray&lt;unsigned long long&gt;::merge(std::move(t0), std::move(t1));
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::size(t0) &lt;&lt; std::endl;;
+t0 = SplayTreeArray&lt;unsigned long long&gt;::merge(std::move(t0), std::move(t2));
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::size(t0) &lt;&lt; std::endl;;
+t0 = SplayTreeArray&lt;unsigned long long&gt;::merge(std::move(t0), std::move(t3));
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::size(t0) &lt;&lt; std::endl;;
+t0 = SplayTreeArray&lt;unsigned long long&gt;::merge(std::move(t0), std::move(t4));
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::size(t0) &lt;&lt; std::endl;;
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::get(t0, 4ull) &lt;&lt; std::endl;;
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::get(t0, 3ull) &lt;&lt; std::endl;;
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::get(t0, 2ull) &lt;&lt; std::endl;;
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::get(t0, 1ull) &lt;&lt; std::endl;;
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::get(t0, 0ull) &lt;&lt; std::endl;;
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::fold(t0) &lt;&lt; std::endl;;
+}
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../data_structure/segment_tree.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../data_structure/sparse_table.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../data_structure/segment_tree.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../data_structure/sparse_table.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

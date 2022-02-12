@@ -1,0 +1,430 @@
+<!DOCTYPE HTML>
+<html lang="ja" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Segment Tree - cp-niu-library</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../math/index.html"><strong aria-hidden="true">1.</strong> Math</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../math/matrix.html"><strong aria-hidden="true">1.1.</strong> Matrix</a></li><li class="chapter-item expanded "><a href="../math/modint.html"><strong aria-hidden="true">1.2.</strong> Modint</a></li></ol></li><li class="chapter-item expanded "><a href="../data_structure/index.html"><strong aria-hidden="true">2.</strong> Data Structure</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../data_structure/segment_tree.html" class="active"><strong aria-hidden="true">2.1.</strong> Segment Tree</a></li><li class="chapter-item expanded "><a href="../data_structure/splay_tree_array.html"><strong aria-hidden="true">2.2.</strong> Splay Tree Array</a></li><li class="chapter-item expanded "><a href="../data_structure/sparse_table.html"><strong aria-hidden="true">2.3.</strong> Sparse Table</a></li><li class="chapter-item expanded "><a href="../data_structure/union_find.html"><strong aria-hidden="true">2.4.</strong> Union Find</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">cp-niu-library</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="segment-tree"><a class="header" href="#segment-tree">Segment Tree</a></h1>
+<h2 id="tests"><a class="header" href="#tests">Tests</a></h2>
+<ul>
+<li><a href="https://github.com/yosupo06/library-checker-problems">library-checker-problems</a>: <code>datastructure/point_add_range_sum</code></li>
+<li><a href="https://github.com/yosupo06/library-checker-problems">library-checker-problems</a>: <code>datastructure/point_set_range_composite</code></li>
+</ul>
+<h2 id="niu"><a class="header" href="#niu">Niu</a></h2>
+<pre><code>import &quot;std/vec.niu&quot;
+import &quot;std/u64.niu&quot;
+import &quot;std/i64.niu&quot;
+
+trait Monoid {
+  fn ide() -&gt; Self;
+  fn ope(self: &amp;Self, right: &amp;Self) -&gt; Self;
+}
+
+struct SegmentTree&lt;T&gt; where T: Monoid {
+  node: Vec&lt;T&gt;,
+  n: u64,
+} {
+  fn init(arr: Vec&lt;T&gt;) -&gt; Self {
+    let mut n = 1;
+    for i = 1; n &lt; arr.len(); n = n * 2 {}
+    let mut node = Vec::init(2 * n, T#Monoid::ide());
+    let mut j = 0;
+    for x in arr {
+      node[j + n] = x;
+      j = j + 1;
+    }
+    for i = n - 1; i &gt;= 1; i = i - 1 {
+      node[i] = node[i * 2].ope(&amp;node[i * 2 + 1]);
+    }
+    SegmentTree { node: node, n: n, }
+  }
+
+  fn get(self: &amp;Self, i: u64) -&gt; &amp;T {
+    &amp;self.node[i + self.n]
+  }
+
+  fn update(self: &amp;mut Self, p: u64, x: T) -&gt; void {
+    self.node[p + self.n] = x;
+    for i = (p + self.n) / 2; i &gt;= 1; i = i / 2 {
+      self.node[i] = self.node[i * 2].ope(&amp;self.node[i * 2 + 1]);
+    }
+  }
+
+  fn sum(self: &amp;mut Self, l: u64, r: u64) -&gt; T {
+    let mut lx = T#Monoid::ide();
+    let mut rx = T#Monoid::ide();
+    let mut i = l + self.n;
+    for j = r + self.n; i &lt; j; j = j &gt;&gt; 1 {
+      if (i &amp; 1) == 1 {
+        lx = lx.ope(&amp;self.node[i]);
+        i = i + 1;
+      }
+      if (j &amp; 1) == 1 {
+        j = j - 1;
+        rx = self.node[j].ope(&amp;rx);
+      }
+      i = i &gt;&gt; 1;
+    }
+    lx.ope(&amp;rx)
+  }
+}
+
+testfn(library-checker-problems:datastructure/point_add_range_sum) segmenttree_point_add_range_sum $${
+#include &lt;iostream&gt;
+using i64 = long long;
+struct Am {
+  i64 a;
+};
+
+template&lt;&gt;
+struct Monoid&lt;Am, void&gt;: std::true_type {
+  static Am ide() { return Am { 0ll }; }
+  static Am ope(const Am&amp; a, const Am&amp; b) {
+    return Am { a.a + b.a };
+  }
+};
+
+int main() {
+  std::cin.tie(nullptr);
+  int N, Q;
+  std::cin &gt;&gt; N &gt;&gt; Q;
+  std::vector&lt;Am&gt; a(N, Am { 0 });
+  for(int i = 0; i &lt; N; i++) {
+    long long v;
+    std::cin &gt;&gt; v;
+    a[i] = Am { v };
+  }
+  using Seg = SegmentTree&lt;Am&gt;;
+  auto seg = Seg::init(std::move(a));
+  while(Q--) {
+    int t, a, b;
+    std::cin &gt;&gt; t &gt;&gt; a &gt;&gt; b;
+    if(t == 0) {
+      Seg::update(seg, a, Am { Seg::get(seg, a).a + b });
+    }
+    else {
+      std::cout &lt;&lt; Seg::sum(seg, a, b).a &lt;&lt; '\n';
+    }
+  }
+}
+}$$
+
+testfn(library-checker-problems:datastructure/point_set_range_composite) segmenttree_point_set_range_composite $${
+#include &lt;iostream&gt;
+using i64 = long long;
+struct Fm {
+  i64 a;
+  i64 b;
+};
+
+const i64 MOD = 998244353;
+
+template&lt;&gt;
+struct Monoid&lt;Fm, void&gt;: std::true_type {
+  static Fm ide() { return Fm { 1ll, 0ll }; }
+  static Fm ope(const Fm&amp; a, const Fm&amp; b) {
+    return Fm { (a.a * b.a) % MOD, (a.b * b.a + b.b) % MOD };
+  }
+};
+
+int main() {
+  std::cin.tie(nullptr);
+  int N, Q;
+  std::cin &gt;&gt; N &gt;&gt; Q;
+  std::vector&lt;Fm&gt; a(N, Fm { 1, 0 });
+  for(int i = 0; i &lt; N; i++) {
+    long long v, w;
+    std::cin &gt;&gt; v &gt;&gt; w;
+    a[i] = Fm { v, w };
+  }
+  using Seg = SegmentTree&lt;Fm&gt;;
+  auto seg = Seg::init(std::move(a));
+  while(Q--) {
+    int t, a, b, c;
+    std::cin &gt;&gt; t &gt;&gt; a &gt;&gt; b &gt;&gt; c;
+    if(t == 0) {
+      Seg::update(seg, a, Fm { b, c });
+    }
+    else {
+      Fm ans = Seg::sum(seg, a, b);
+      std::cout &lt;&lt; (ans.a * c + ans.b) % MOD &lt;&lt; '\n';
+    }
+  }
+}
+}$$
+
+
+</code></pre>
+<h2 id="c"><a class="header" href="#c">C++</a></h2>
+<pre><code class="language-cpp">#include &lt;algorithm&gt;
+#include &lt;tuple&gt;
+#include &lt;type_traits&gt;
+#include &lt;vector&gt;
+
+template &lt;class T, class = void&gt; struct SegmentTree;
+template&lt;class Self, class = void&gt; struct Monoid: std::false_type { };
+template&lt;class Self, class = void&gt; struct Index: std::false_type { };
+template&lt;class Self, class = void&gt; struct IndexMut: std::false_type { };
+template&lt;class Self, class = void&gt; struct Clone: std::false_type { };
+template&lt;class Self, class = void&gt; struct Iterator: std::false_type { };
+template&lt;class T&gt; struct Index&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+using Output = T;
+ using Arg = unsigned long long;
+
+static T const&amp; index(std::vector&lt;T&gt; const&amp; self, unsigned long long i);
+};
+template&lt;class T&gt; struct IndexMut&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+
+static T&amp; index_mut(std::vector&lt;T&gt;&amp; self, unsigned long long i);
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+using Item = T;
+
+
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt; const&amp;, void&gt;: std::true_type {
+using Item = T const&amp;;
+
+
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt;&amp;, void&gt;: std::true_type {
+using Item = T&amp;;
+
+
+};
+template &lt;class T&gt; struct SegmentTree&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt; {
+std::vector&lt;T&gt; node;
+unsigned long long n;
+SegmentTree(std::vector&lt;T&gt; node, unsigned long long n):node(node), n(n) { }
+SegmentTree(SegmentTree&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+SegmentTree&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp; operator=(SegmentTree&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+static SegmentTree&lt;T&gt; init(std::vector&lt;T&gt; arr) {
+unsigned long long n = 1ull;
+for(unsigned long long i = 1ull; n &lt; arr.size(); n = n*2ull){
+};
+std::vector&lt;T&gt; node = std::vector&lt;T&gt;(2ull*n, Monoid&lt;T&gt;::ide());
+unsigned long long j = 0ull;
+{
+auto&amp;&amp; __range6968 = std::move(arr);
+for(auto __begin6968 = std::make_move_iterator(std::begin(__range6968)), __end6968 = std::make_move_iterator(std::end(__range6968)); __begin6968 != __end6968; ++__begin6968){
+T x = *__begin6968;
+node[j+n] = std::move(x);
+j = j+1ull;
+}
+};
+for(unsigned long long i = n-1ull; i &gt;= 1ull; i = i-1ull){
+node[i] = Monoid&lt;T&gt;::ope(node[i*2ull], node[i*2ull+1ull]);
+};
+return SegmentTree&lt;T&gt;(std::move(node), n);
+}
+
+static T const&amp; get(SegmentTree&lt;T&gt; const&amp; self, unsigned long long i) {
+return self.node[i+self.n];
+}
+
+static T sum(SegmentTree&lt;T&gt;&amp; self, unsigned long long l, unsigned long long r) {
+T lx = Monoid&lt;T&gt;::ide();
+T rx = Monoid&lt;T&gt;::ide();
+unsigned long long i = l+self.n;
+for(unsigned long long j = r+self.n; i &lt; j; j = j&gt;&gt;1ull){
+if((i&amp;1ull) == 1ull) {
+ lx = Monoid&lt;T&gt;::ope(lx, self.node[i]);
+i = i+1ull;
+}
+;
+if((j&amp;1ull) == 1ull) {
+ j = j-1ull;
+rx = Monoid&lt;T&gt;::ope(self.node[j], rx);
+}
+;
+i = i&gt;&gt;1ull;
+};
+return Monoid&lt;T&gt;::ope(lx, rx);
+}
+
+static void update(SegmentTree&lt;T&gt;&amp; self, unsigned long long p, T x) {
+self.node[p+self.n] = std::move(x);
+for(unsigned long long i = (p+self.n)/2ull; i &gt;= 1ull; i = i/2ull){
+self.node[i] = Monoid&lt;T&gt;::ope(self.node[i*2ull], self.node[i*2ull+1ull]);
+};
+}
+} ;
+template&lt;class T&gt; T const&amp; Index&lt;std::vector&lt;T&gt;, void&gt;::index(std::vector&lt;T&gt; const&amp; self, unsigned long long i) {
+return self.at(i);
+}
+template&lt;class T&gt; T&amp; IndexMut&lt;std::vector&lt;T&gt;, void&gt;::index_mut(std::vector&lt;T&gt;&amp; self, unsigned long long i) {
+return self.at(i);
+}
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../data_structure/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../data_structure/splay_tree_array.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../data_structure/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../data_structure/splay_tree_array.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

@@ -1,0 +1,1687 @@
+<!DOCTYPE HTML>
+<html lang="ja" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>cp-niu-library</title>
+        <meta name="robots" content="noindex" />
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="math/index.html"><strong aria-hidden="true">1.</strong> Math</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="math/matrix.html"><strong aria-hidden="true">1.1.</strong> Matrix</a></li><li class="chapter-item expanded "><a href="math/modint.html"><strong aria-hidden="true">1.2.</strong> Modint</a></li></ol></li><li class="chapter-item expanded "><a href="data_structure/index.html"><strong aria-hidden="true">2.</strong> Data Structure</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="data_structure/segment_tree.html"><strong aria-hidden="true">2.1.</strong> Segment Tree</a></li><li class="chapter-item expanded "><a href="data_structure/splay_tree_array.html"><strong aria-hidden="true">2.2.</strong> Splay Tree Array</a></li><li class="chapter-item expanded "><a href="data_structure/sparse_table.html"><strong aria-hidden="true">2.3.</strong> Sparse Table</a></li><li class="chapter-item expanded "><a href="data_structure/union_find.html"><strong aria-hidden="true">2.4.</strong> Union Find</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">cp-niu-library</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="cp-niu-library"><a class="header" href="#cp-niu-library">cp-niu-library</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="math"><a class="header" href="#math">Math</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="matrix"><a class="header" href="#matrix">Matrix</a></h1>
+<h2 id="tests"><a class="header" href="#tests">Tests</a></h2>
+<h2 id="niu"><a class="header" href="#niu">Niu</a></h2>
+<pre><code>import &quot;std/vec.niu&quot;
+import &quot;std/opes.niu&quot;
+import &quot;std/u64.niu&quot;
+
+
+trait Field where
+  Self: Add&lt;Self&gt;(Output=Self),
+  Self: Sub&lt;Self&gt;(Output=Self),
+  Self: Mul&lt;Self&gt;(Output=Self),
+  Self: Copy {
+  fn zero() -&gt; Self;
+  fn one() -&gt; Self;
+}
+
+struct Matrix&lt;F&gt; where F: Field
+{
+  a: Vec&lt;Vec&lt;F&gt;&gt;,
+  h: u64,
+  w: u64,
+}
+{
+  fn zero(h: u64, w: u64) -&gt; Self {
+    Matrix {
+      a: Vec::init(h, Vec::init(w, F::zero())),
+      h: h,
+      w: w,
+    }
+  }
+  fn one(h: u64) -&gt; Self {
+    let mut a = Vec::init(h, Vec::init(h, F::zero()));
+    for(let mut i = 0;i &lt; h;i = i + 1) {
+      a[i][i] = F::one();
+    }
+    Matrix {
+      a: a,
+      h: h,
+      w: h,
+    }
+  }
+  fn pow(self: &amp;Self, p: u64) -&gt; Self {
+    let mut now = self.clone();
+    let mut ans = Matrix::one(self.h);
+    for(let mut exp = p; exp &gt; 0; exp = exp &gt;&gt; 1) {
+      if exp &amp; 1 == 1 {
+        ans = &amp;ans * &amp;now;
+      }
+      now = &amp;now * &amp;now;
+    }
+    ans
+  }
+}
+
+impl&lt;F&gt; Index for Matrix&lt;F&gt; where
+  F: Field {
+  type Arg = u64;
+  type Output = Vec&lt;F&gt;;
+  fn index(self: &amp;Self, i: u64) -&gt; &amp;Vec&lt;F&gt; {
+    &amp;self.a[i]
+  }
+}
+
+impl&lt;F&gt; IndexMut for Matrix&lt;F&gt; where
+  F: Field {
+  fn index_mut(self: &amp;mut Self, i: u64) -&gt; &amp;mut Vec&lt;F&gt; {
+    &amp;mut self.a[i]
+  }
+}
+
+impl&lt;F&gt; Add&lt;Matrix&lt;F&gt;&gt; for Matrix&lt;F&gt; where
+  F: Field {
+  type Output = Self;
+  fn add(mut self: Self, right: Self) -&gt; Self {
+    for(let mut i = 0; i &lt; self.h; i = i + 1) {
+      for(let mut j = 0; j &lt; self.w; j = j + 1) {
+        self[i][j] = self[i][j] + right[i][j];
+      }
+    }
+    self
+  }
+}
+
+impl&lt;F&gt; Sub&lt;Matrix&lt;F&gt;&gt; for Matrix&lt;F&gt; where
+  F: Field {
+  type Output = Self;
+  fn sub(mut self: Self, right: Self) -&gt; Self {
+    for(let mut i = 0; i &lt; self.h; i = i + 1) {
+      for(let mut j = 0; j &lt; self.w; j = j + 1) {
+        self[i][j] = self[i][j] - right[i][j];
+      }
+    }
+    self
+  }
+}
+
+impl&lt;F&gt; Mul&lt;&amp;Matrix&lt;F&gt;&gt; for &amp;Matrix&lt;F&gt; where
+  F: Field {
+  type Output = Matrix&lt;F&gt;;
+  fn mul(self: &amp;Matrix&lt;F&gt;, right: &amp;Matrix&lt;F&gt;) -&gt; Matrix&lt;F&gt; {
+    let mut out = Matrix&lt;F&gt;::zero(self.h, right.w);
+    for(let mut i = 0; i &lt; self.h; i = i + 1) {
+      for(let mut k = 0; k &lt; right.w; k = k + 1) {
+        for(let mut j = 0; j &lt; self.w; j = j + 1) {
+          out[i][k] = out[i][k] + self[i][j] * right[j][k];
+        }
+      }
+    }
+    out
+  }
+}
+
+impl&lt;F&gt; Clone for Matrix&lt;F&gt; where F: Field {
+  fn clone(self: &amp;Self) -&gt; Self {
+    Matrix { a: self.a.clone(), h: self.h, w: self.w }
+  }
+}
+</code></pre>
+<h2 id="c"><a class="header" href="#c">C++</a></h2>
+<pre><code class="language-cpp">#include &lt;algorithm&gt;
+#include &lt;tuple&gt;
+#include &lt;type_traits&gt;
+#include &lt;vector&gt;
+
+template &lt;class F, class = void&gt; struct Matrix;
+template&lt;class Self, class = void&gt; struct Field: std::false_type { };
+template&lt;class Self, class = void&gt; struct Index: std::false_type { };
+template&lt;class Self, class = void&gt; struct IndexMut: std::false_type { };
+template&lt;class Self, class = void&gt; struct Clone: std::false_type { };
+template&lt;class Self, class = void&gt; struct Iterator: std::false_type { };
+template&lt;class F&gt; struct Index&lt;Matrix&lt;F&gt;, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;: std::true_type {
+using Arg = unsigned long long;
+ using Output = std::vector&lt;F&gt;;
+
+static std::vector&lt;F&gt; const&amp; index(Matrix&lt;F&gt; const&amp; self, unsigned long long i);
+};
+template&lt;class F&gt; struct IndexMut&lt;Matrix&lt;F&gt;, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;: std::true_type {
+
+static std::vector&lt;F&gt;&amp; index_mut(Matrix&lt;F&gt;&amp; self, unsigned long long i);
+};
+template&lt;class F, class = std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt; Matrix&lt;F&gt; operator+(Matrix&lt;F&gt; self, Matrix&lt;F&gt; right);
+template&lt;class F, class = std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt; Matrix&lt;F&gt; operator-(Matrix&lt;F&gt; self, Matrix&lt;F&gt; right);
+template&lt;class F, class = std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt; Matrix&lt;F&gt; operator*(Matrix&lt;F&gt; const&amp; self, Matrix&lt;F&gt; const&amp; right);
+template&lt;class F&gt; struct Clone&lt;Matrix&lt;F&gt;, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;: std::true_type {
+
+static Matrix&lt;F&gt; clone(Matrix&lt;F&gt; const&amp; self);
+};
+template&lt;class T&gt; struct Index&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+using Output = T;
+ using Arg = unsigned long long;
+
+static T const&amp; index(std::vector&lt;T&gt; const&amp; self, unsigned long long i);
+};
+template&lt;class T&gt; struct IndexMut&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+
+static T&amp; index_mut(std::vector&lt;T&gt;&amp; self, unsigned long long i);
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+using Item = T;
+
+
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt; const&amp;, void&gt;: std::true_type {
+using Item = T const&amp;;
+
+
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt;&amp;, void&gt;: std::true_type {
+using Item = T&amp;;
+
+
+};
+template &lt;class F&gt; struct Matrix&lt;F, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt; {
+std::vector&lt;std::vector&lt;F&gt;&gt; a;
+unsigned long long h;
+unsigned long long w;
+Matrix(std::vector&lt;std::vector&lt;F&gt;&gt; a, unsigned long long h, unsigned long long w):a(a), h(h), w(w) { }
+Matrix(Matrix&lt;F, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+Matrix&lt;F, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;&amp; operator=(Matrix&lt;F, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+static Matrix&lt;F&gt; one(unsigned long long h) {
+std::vector&lt;std::vector&lt;F&gt;&gt; a = std::vector&lt;std::vector&lt;F&gt;&gt;(h, std::vector&lt;F&gt;(h, Field&lt;F&gt;::zero()));
+for(unsigned long long i = 0ull; i &lt; h; i = i+1ull){
+a[i][i] = Field&lt;F&gt;::one();
+};
+return Matrix&lt;F&gt;(std::move(a), h, h);
+}
+
+static Matrix&lt;F&gt; pow(Matrix&lt;F&gt; const&amp; self, unsigned long long p) {
+Matrix&lt;F&gt; now = self;
+Matrix&lt;F&gt; ans = Matrix&lt;F&gt;::one(self.h);
+for(unsigned long long exp = p; exp &gt; 0ull; exp = exp&gt;&gt;1ull){
+if((exp&amp;1ull) == 1ull) {
+ ans = ans*now;
+}
+;
+now = now*now;
+};
+return ans;
+}
+
+static Matrix&lt;F&gt; zero(unsigned long long h, unsigned long long w) {
+return Matrix&lt;F&gt;(std::vector&lt;std::vector&lt;F&gt;&gt;(h, std::vector&lt;F&gt;(w, Field&lt;F&gt;::zero())), h, w);
+}
+Matrix(const Matrix&lt;F, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;&amp; right) :Matrix(Clone&lt;Matrix&lt;F, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;&gt;::clone(right)) {}
+Matrix&lt;F, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;&amp; operator=(const Matrix&lt;F, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;&amp; right) { return *this = Clone&lt;Matrix&lt;F, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;&gt;::clone(right); }
+typename std::enable_if&lt;Index&lt;Matrix&lt;F&gt;&gt;::value, const typename Index&lt;Matrix&lt;F&gt;&gt;::Output&amp;&gt;::type operator[](typename Index&lt;Matrix&lt;F&gt;&gt;::Arg k) const { return Index&lt;Matrix&lt;F&gt;&gt;::index(*this, k); }
+typename std::enable_if&lt;IndexMut&lt;Matrix&lt;F&gt;&gt;::value, typename Index&lt;Matrix&lt;F&gt;&gt;::Output&amp;&gt;::type operator[](typename Index&lt;Matrix&lt;F&gt;&gt;::Arg k) { return IndexMut&lt;Matrix&lt;F&gt;&gt;::index_mut(*this, k); }
+} ;
+template&lt;class F&gt; std::vector&lt;F&gt; const&amp; Index&lt;Matrix&lt;F&gt;, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;::index(Matrix&lt;F&gt; const&amp; self, unsigned long long i) {
+return self.a[i];
+}
+template&lt;class F&gt; std::vector&lt;F&gt;&amp; IndexMut&lt;Matrix&lt;F&gt;, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;::index_mut(Matrix&lt;F&gt;&amp; self, unsigned long long i) {
+return self.a[i];
+}
+template&lt;class F, class&gt; Matrix&lt;F&gt; operator+(Matrix&lt;F&gt; self, Matrix&lt;F&gt; right) {
+for(unsigned long long i = 0ull; i &lt; self.h; i = i+1ull){
+for(unsigned long long j = 0ull; j &lt; self.w; j = j+1ull){
+self[i][j] = self[i][j]+right[i][j];
+};
+};
+return self;
+}
+
+template&lt;class F, class&gt; Matrix&lt;F&gt; operator-(Matrix&lt;F&gt; self, Matrix&lt;F&gt; right) {
+for(unsigned long long i = 0ull; i &lt; self.h; i = i+1ull){
+for(unsigned long long j = 0ull; j &lt; self.w; j = j+1ull){
+self[i][j] = self[i][j]-right[i][j];
+};
+};
+return self;
+}
+
+template&lt;class F, class&gt; Matrix&lt;F&gt; operator*(Matrix&lt;F&gt; const&amp; self, Matrix&lt;F&gt; const&amp; right) {
+Matrix&lt;F&gt; out = Matrix&lt;F&gt;::zero(self.h, right.w);
+for(unsigned long long i = 0ull; i &lt; self.h; i = i+1ull){
+for(unsigned long long k = 0ull; k &lt; right.w; k = k+1ull){
+for(unsigned long long j = 0ull; j &lt; self.w; j = j+1ull){
+out[i][k] = out[i][k]+self[i][j]*right[j][k];
+};
+};
+};
+return out;
+}
+
+template&lt;class F&gt; Matrix&lt;F&gt; Clone&lt;Matrix&lt;F&gt;, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;::clone(Matrix&lt;F&gt; const&amp; self) {
+return Matrix&lt;F&gt;(self.a, self.h, self.w);
+}
+template&lt;class T&gt; T const&amp; Index&lt;std::vector&lt;T&gt;, void&gt;::index(std::vector&lt;T&gt; const&amp; self, unsigned long long i) {
+return self.at(i);
+}
+template&lt;class T&gt; T&amp; IndexMut&lt;std::vector&lt;T&gt;, void&gt;::index_mut(std::vector&lt;T&gt;&amp; self, unsigned long long i) {
+return self.at(i);
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="modint"><a class="header" href="#modint">Modint</a></h1>
+<h2 id="tests-1"><a class="header" href="#tests-1">Tests</a></h2>
+<h2 id="niu-1"><a class="header" href="#niu-1">Niu</a></h2>
+<pre><code>import &quot;std/u64.niu&quot;
+import &quot;std/opes.niu&quot;
+
+trait Mod {
+  fn m() -&gt; u64;
+}
+
+struct M9982 {} {}
+
+impl Mod for M9982 {
+  fn m() -&gt; u64 { 998244353 }
+}
+
+struct Modint&lt;M&gt; where M: Mod {
+  a: u64
+} {
+  fn init(a: u64) -&gt; Self {
+    Modint { a: a }
+  }
+  fn pow(self: &amp;Self, p: u64) -&gt; Self {
+    let mut now = *self;
+    let mut ans = Self::init(1);
+    for(let mut exp = p; exp &gt; 0; exp = exp &gt;&gt; 1) {
+      if exp &amp; 1 == 1 {
+        ans = ans * now;
+      }
+      now = now * now;
+    }
+    ans
+  }
+  fn inv(self: &amp;Self) -&gt; Self {
+    self.pow(M::m() - 2)
+  }
+}
+
+impl&lt;M&gt; Add&lt;Modint&lt;M&gt;&gt; for Modint&lt;M&gt; where M: Mod {
+  type Output = Self;
+  fn add(self: Self, right: Self) -&gt; Self {
+    let a = self.a + right.a;
+    if a &gt;= M::m() {
+      Modint { a: a - M::m() }
+    }
+    else {
+      Modint { a: a }
+    }
+  }
+}
+
+impl&lt;M&gt; Sub&lt;Modint&lt;M&gt;&gt; for Modint&lt;M&gt; where M: Mod {
+  type Output = Self;
+  fn sub(self: Self, right: Self) -&gt; Self {
+    if self.a &lt; right.a {
+      Modint { a: self.a + M::m() - right.a }
+    }
+    else {
+      Modint { a: self.a - right.a }
+    }
+  }
+}
+
+impl&lt;M&gt; Mul&lt;Modint&lt;M&gt;&gt; for Modint&lt;M&gt; where M: Mod {
+  type Output = Self;
+  fn mul(self: Self, right: Self) -&gt; Self {
+    Modint { a: self.a * right.a % M::m() }
+  }
+}
+
+impl&lt;M&gt; Div&lt;Modint&lt;M&gt;&gt; for Modint&lt;M&gt; where M: Mod {
+  type Output = Self;
+  fn div(self: Self, right: Self) -&gt; Self {
+    self * right.inv()
+  }
+}
+
+impl&lt;M&gt; Neg for Modint&lt;M&gt; where M: Mod {
+  type Output = Self;
+  fn neg(mut self: Self) -&gt; Self {
+    if self.a == 0 {
+      self
+    }
+    else {
+      self.a = M::m() - self.a;
+      self
+    }
+  }
+}
+impl&lt;M&gt; Clone for Modint&lt;M&gt; where M: Mod {
+  fn clone(self: &amp;Self) -&gt; Self { Modint { a: self.a } }
+}
+impl&lt;M&gt; Copy for Modint&lt;M&gt; where M: Mod {}
+</code></pre>
+<h2 id="c-1"><a class="header" href="#c-1">C++</a></h2>
+<pre><code class="language-cpp">#include &lt;tuple&gt;
+#include &lt;type_traits&gt;
+
+struct M9982;
+template &lt;class M, class = void&gt; struct Modint;
+template&lt;class Self, class = void&gt; struct Mod: std::false_type { };
+template&lt;class Self, class = void&gt; struct Index: std::false_type { };
+template&lt;class Self, class = void&gt; struct IndexMut: std::false_type { };
+template&lt;class Self, class = void&gt; struct Clone: std::false_type { };
+template&lt;class Self, class = void&gt; struct Iterator: std::false_type { };
+template&lt;&gt; struct Mod&lt;M9982, void&gt;: std::true_type {
+
+static unsigned long long m();
+};
+template&lt;class M, class = std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt; Modint&lt;M&gt; operator+(Modint&lt;M&gt; self, Modint&lt;M&gt; right);
+template&lt;class M, class = std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt; Modint&lt;M&gt; operator-(Modint&lt;M&gt; self, Modint&lt;M&gt; right);
+template&lt;class M, class = std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt; Modint&lt;M&gt; operator*(Modint&lt;M&gt; self, Modint&lt;M&gt; right);
+template&lt;class M, class = std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt; Modint&lt;M&gt; operator/(Modint&lt;M&gt; self, Modint&lt;M&gt; right);
+template&lt;class M, class = std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt; Modint&lt;M&gt; operator-(Modint&lt;M&gt; self);
+template&lt;class M&gt; struct Clone&lt;Modint&lt;M&gt;, std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt;: std::true_type {
+
+static Modint&lt;M&gt; clone(Modint&lt;M&gt; const&amp; self);
+};
+template &lt;class M&gt; struct Modint&lt;M, std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt; {
+unsigned long long a;
+Modint(unsigned long long a):a(a) { }
+Modint(Modint&lt;M, std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+Modint&lt;M, std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt;&amp; operator=(Modint&lt;M, std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+static Modint&lt;M&gt; pow(Modint&lt;M&gt; const&amp; self, unsigned long long p) {
+Modint&lt;M&gt; now = self;
+Modint&lt;M&gt; ans = Modint&lt;M&gt;::init(1ull);
+for(unsigned long long exp = p; exp &gt; 0ull; exp = exp&gt;&gt;1ull){
+if((exp&amp;1ull) == 1ull) {
+ ans = ans*now;
+}
+;
+now = now*now;
+};
+return ans;
+}
+
+static Modint&lt;M&gt; init(unsigned long long a) {
+return Modint&lt;M&gt;(a);
+}
+
+static Modint&lt;M&gt; inv(Modint&lt;M&gt; const&amp; self) {
+return Modint&lt;M&gt;::pow(self, Mod&lt;M&gt;::m()-2ull);
+}
+Modint(const Modint&lt;M, std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt;&amp; right) :Modint(Clone&lt;Modint&lt;M, std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt;&gt;::clone(right)) {}
+Modint&lt;M, std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt;&amp; operator=(const Modint&lt;M, std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt;&amp; right) { return *this = Clone&lt;Modint&lt;M, std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt;&gt;::clone(right); }
+} ;
+struct M9982 {
+
+M9982() { }
+M9982(M9982&amp;&amp; right) = default;
+M9982&amp; operator=(M9982&amp;&amp; right) = default;
+} ;
+unsigned long long Mod&lt;M9982, void&gt;::m() {
+return 998244353ull;
+}
+template&lt;class M, class&gt; Modint&lt;M&gt; operator+(Modint&lt;M&gt; self, Modint&lt;M&gt; right) {
+unsigned long long a = self.a+right.a;
+if(a &gt;= Mod&lt;M&gt;::m()) {
+return Modint&lt;M&gt;(a-Mod&lt;M&gt;::m());
+}
+else {
+return Modint&lt;M&gt;(a);
+}
+;
+}
+
+template&lt;class M, class&gt; Modint&lt;M&gt; operator-(Modint&lt;M&gt; self, Modint&lt;M&gt; right) {
+if(self.a &lt; right.a) {
+return Modint&lt;M&gt;(self.a+Mod&lt;M&gt;::m()-right.a);
+}
+else {
+return Modint&lt;M&gt;(self.a-right.a);
+}
+;
+}
+
+template&lt;class M, class&gt; Modint&lt;M&gt; operator*(Modint&lt;M&gt; self, Modint&lt;M&gt; right) {
+return Modint&lt;M&gt;(self.a*right.a%Mod&lt;M&gt;::m());
+}
+
+template&lt;class M, class&gt; Modint&lt;M&gt; operator/(Modint&lt;M&gt; self, Modint&lt;M&gt; right) {
+return self*Modint&lt;M&gt;::inv(right);
+}
+
+template&lt;class M, class&gt; Modint&lt;M&gt; operator-(Modint&lt;M&gt; self) {
+if(self.a == 0ull) {
+return self;
+}
+else {
+self.a = Mod&lt;M&gt;::m()-self.a;
+return self;
+}
+;
+}
+
+template&lt;class M&gt; Modint&lt;M&gt; Clone&lt;Modint&lt;M&gt;, std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt;::clone(Modint&lt;M&gt; const&amp; self) {
+return Modint&lt;M&gt;(self.a);
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="data-structure"><a class="header" href="#data-structure">Data Structure</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="segment-tree"><a class="header" href="#segment-tree">Segment Tree</a></h1>
+<h2 id="tests-2"><a class="header" href="#tests-2">Tests</a></h2>
+<ul>
+<li><a href="https://github.com/yosupo06/library-checker-problems">library-checker-problems</a>: <code>datastructure/point_add_range_sum</code></li>
+<li><a href="https://github.com/yosupo06/library-checker-problems">library-checker-problems</a>: <code>datastructure/point_set_range_composite</code></li>
+</ul>
+<h2 id="niu-2"><a class="header" href="#niu-2">Niu</a></h2>
+<pre><code>import &quot;std/vec.niu&quot;
+import &quot;std/u64.niu&quot;
+import &quot;std/i64.niu&quot;
+
+trait Monoid {
+  fn ide() -&gt; Self;
+  fn ope(self: &amp;Self, right: &amp;Self) -&gt; Self;
+}
+
+struct SegmentTree&lt;T&gt; where T: Monoid {
+  node: Vec&lt;T&gt;,
+  n: u64,
+} {
+  fn init(arr: Vec&lt;T&gt;) -&gt; Self {
+    let mut n = 1;
+    for i = 1; n &lt; arr.len(); n = n * 2 {}
+    let mut node = Vec::init(2 * n, T#Monoid::ide());
+    let mut j = 0;
+    for x in arr {
+      node[j + n] = x;
+      j = j + 1;
+    }
+    for i = n - 1; i &gt;= 1; i = i - 1 {
+      node[i] = node[i * 2].ope(&amp;node[i * 2 + 1]);
+    }
+    SegmentTree { node: node, n: n, }
+  }
+
+  fn get(self: &amp;Self, i: u64) -&gt; &amp;T {
+    &amp;self.node[i + self.n]
+  }
+
+  fn update(self: &amp;mut Self, p: u64, x: T) -&gt; void {
+    self.node[p + self.n] = x;
+    for i = (p + self.n) / 2; i &gt;= 1; i = i / 2 {
+      self.node[i] = self.node[i * 2].ope(&amp;self.node[i * 2 + 1]);
+    }
+  }
+
+  fn sum(self: &amp;mut Self, l: u64, r: u64) -&gt; T {
+    let mut lx = T#Monoid::ide();
+    let mut rx = T#Monoid::ide();
+    let mut i = l + self.n;
+    for j = r + self.n; i &lt; j; j = j &gt;&gt; 1 {
+      if (i &amp; 1) == 1 {
+        lx = lx.ope(&amp;self.node[i]);
+        i = i + 1;
+      }
+      if (j &amp; 1) == 1 {
+        j = j - 1;
+        rx = self.node[j].ope(&amp;rx);
+      }
+      i = i &gt;&gt; 1;
+    }
+    lx.ope(&amp;rx)
+  }
+}
+
+testfn(library-checker-problems:datastructure/point_add_range_sum) segmenttree_point_add_range_sum $${
+#include &lt;iostream&gt;
+using i64 = long long;
+struct Am {
+  i64 a;
+};
+
+template&lt;&gt;
+struct Monoid&lt;Am, void&gt;: std::true_type {
+  static Am ide() { return Am { 0ll }; }
+  static Am ope(const Am&amp; a, const Am&amp; b) {
+    return Am { a.a + b.a };
+  }
+};
+
+int main() {
+  std::cin.tie(nullptr);
+  int N, Q;
+  std::cin &gt;&gt; N &gt;&gt; Q;
+  std::vector&lt;Am&gt; a(N, Am { 0 });
+  for(int i = 0; i &lt; N; i++) {
+    long long v;
+    std::cin &gt;&gt; v;
+    a[i] = Am { v };
+  }
+  using Seg = SegmentTree&lt;Am&gt;;
+  auto seg = Seg::init(std::move(a));
+  while(Q--) {
+    int t, a, b;
+    std::cin &gt;&gt; t &gt;&gt; a &gt;&gt; b;
+    if(t == 0) {
+      Seg::update(seg, a, Am { Seg::get(seg, a).a + b });
+    }
+    else {
+      std::cout &lt;&lt; Seg::sum(seg, a, b).a &lt;&lt; '\n';
+    }
+  }
+}
+}$$
+
+testfn(library-checker-problems:datastructure/point_set_range_composite) segmenttree_point_set_range_composite $${
+#include &lt;iostream&gt;
+using i64 = long long;
+struct Fm {
+  i64 a;
+  i64 b;
+};
+
+const i64 MOD = 998244353;
+
+template&lt;&gt;
+struct Monoid&lt;Fm, void&gt;: std::true_type {
+  static Fm ide() { return Fm { 1ll, 0ll }; }
+  static Fm ope(const Fm&amp; a, const Fm&amp; b) {
+    return Fm { (a.a * b.a) % MOD, (a.b * b.a + b.b) % MOD };
+  }
+};
+
+int main() {
+  std::cin.tie(nullptr);
+  int N, Q;
+  std::cin &gt;&gt; N &gt;&gt; Q;
+  std::vector&lt;Fm&gt; a(N, Fm { 1, 0 });
+  for(int i = 0; i &lt; N; i++) {
+    long long v, w;
+    std::cin &gt;&gt; v &gt;&gt; w;
+    a[i] = Fm { v, w };
+  }
+  using Seg = SegmentTree&lt;Fm&gt;;
+  auto seg = Seg::init(std::move(a));
+  while(Q--) {
+    int t, a, b, c;
+    std::cin &gt;&gt; t &gt;&gt; a &gt;&gt; b &gt;&gt; c;
+    if(t == 0) {
+      Seg::update(seg, a, Fm { b, c });
+    }
+    else {
+      Fm ans = Seg::sum(seg, a, b);
+      std::cout &lt;&lt; (ans.a * c + ans.b) % MOD &lt;&lt; '\n';
+    }
+  }
+}
+}$$
+
+
+</code></pre>
+<h2 id="c-2"><a class="header" href="#c-2">C++</a></h2>
+<pre><code class="language-cpp">#include &lt;algorithm&gt;
+#include &lt;tuple&gt;
+#include &lt;type_traits&gt;
+#include &lt;vector&gt;
+
+template &lt;class T, class = void&gt; struct SegmentTree;
+template&lt;class Self, class = void&gt; struct Monoid: std::false_type { };
+template&lt;class Self, class = void&gt; struct Index: std::false_type { };
+template&lt;class Self, class = void&gt; struct IndexMut: std::false_type { };
+template&lt;class Self, class = void&gt; struct Clone: std::false_type { };
+template&lt;class Self, class = void&gt; struct Iterator: std::false_type { };
+template&lt;class T&gt; struct Index&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+using Output = T;
+ using Arg = unsigned long long;
+
+static T const&amp; index(std::vector&lt;T&gt; const&amp; self, unsigned long long i);
+};
+template&lt;class T&gt; struct IndexMut&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+
+static T&amp; index_mut(std::vector&lt;T&gt;&amp; self, unsigned long long i);
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+using Item = T;
+
+
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt; const&amp;, void&gt;: std::true_type {
+using Item = T const&amp;;
+
+
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt;&amp;, void&gt;: std::true_type {
+using Item = T&amp;;
+
+
+};
+template &lt;class T&gt; struct SegmentTree&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt; {
+std::vector&lt;T&gt; node;
+unsigned long long n;
+SegmentTree(std::vector&lt;T&gt; node, unsigned long long n):node(node), n(n) { }
+SegmentTree(SegmentTree&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+SegmentTree&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp; operator=(SegmentTree&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+static SegmentTree&lt;T&gt; init(std::vector&lt;T&gt; arr) {
+unsigned long long n = 1ull;
+for(unsigned long long i = 1ull; n &lt; arr.size(); n = n*2ull){
+};
+std::vector&lt;T&gt; node = std::vector&lt;T&gt;(2ull*n, Monoid&lt;T&gt;::ide());
+unsigned long long j = 0ull;
+{
+auto&amp;&amp; __range6968 = std::move(arr);
+for(auto __begin6968 = std::make_move_iterator(std::begin(__range6968)), __end6968 = std::make_move_iterator(std::end(__range6968)); __begin6968 != __end6968; ++__begin6968){
+T x = *__begin6968;
+node[j+n] = std::move(x);
+j = j+1ull;
+}
+};
+for(unsigned long long i = n-1ull; i &gt;= 1ull; i = i-1ull){
+node[i] = Monoid&lt;T&gt;::ope(node[i*2ull], node[i*2ull+1ull]);
+};
+return SegmentTree&lt;T&gt;(std::move(node), n);
+}
+
+static T const&amp; get(SegmentTree&lt;T&gt; const&amp; self, unsigned long long i) {
+return self.node[i+self.n];
+}
+
+static T sum(SegmentTree&lt;T&gt;&amp; self, unsigned long long l, unsigned long long r) {
+T lx = Monoid&lt;T&gt;::ide();
+T rx = Monoid&lt;T&gt;::ide();
+unsigned long long i = l+self.n;
+for(unsigned long long j = r+self.n; i &lt; j; j = j&gt;&gt;1ull){
+if((i&amp;1ull) == 1ull) {
+ lx = Monoid&lt;T&gt;::ope(lx, self.node[i]);
+i = i+1ull;
+}
+;
+if((j&amp;1ull) == 1ull) {
+ j = j-1ull;
+rx = Monoid&lt;T&gt;::ope(self.node[j], rx);
+}
+;
+i = i&gt;&gt;1ull;
+};
+return Monoid&lt;T&gt;::ope(lx, rx);
+}
+
+static void update(SegmentTree&lt;T&gt;&amp; self, unsigned long long p, T x) {
+self.node[p+self.n] = std::move(x);
+for(unsigned long long i = (p+self.n)/2ull; i &gt;= 1ull; i = i/2ull){
+self.node[i] = Monoid&lt;T&gt;::ope(self.node[i*2ull], self.node[i*2ull+1ull]);
+};
+}
+} ;
+template&lt;class T&gt; T const&amp; Index&lt;std::vector&lt;T&gt;, void&gt;::index(std::vector&lt;T&gt; const&amp; self, unsigned long long i) {
+return self.at(i);
+}
+template&lt;class T&gt; T&amp; IndexMut&lt;std::vector&lt;T&gt;, void&gt;::index_mut(std::vector&lt;T&gt;&amp; self, unsigned long long i) {
+return self.at(i);
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="splay-tree-array"><a class="header" href="#splay-tree-array">Splay Tree Array</a></h1>
+<h2 id="tests-3"><a class="header" href="#tests-3">Tests</a></h2>
+<h2 id="niu-3"><a class="header" href="#niu-3">Niu</a></h2>
+<pre><code>import &quot;std/u64.niu&quot;
+import &quot;std/shared_ptr.niu&quot;
+import &quot;std/weak_ptr.niu&quot;
+import &quot;std/vec.niu&quot;
+import &quot;std/bool.niu&quot;
+
+trait Monoid where Self: Clone {
+  fn op(self: &amp;Self, right: &amp;Self) -&gt; Self;
+  fn ide() -&gt; Self;
+}
+
+fn swap&lt;T&gt;(a: &amp;mut T, b: &amp;mut T) -&gt; void $${std::swap($arg(a), $arg(b))}$$
+
+fn node_size&lt;T&gt;(ptr: &amp;SharedPtr&lt;StaNode&lt;T&gt;&gt;) -&gt; u64 where T: Monoid {
+  if ptr.test() {
+    ptr.get_ref().sz
+  }
+  else {
+    0
+  }
+}
+
+fn node_fold&lt;T&gt;(ptr: &amp;SharedPtr&lt;StaNode&lt;T&gt;&gt;) -&gt; T where T: Monoid {
+  if ptr.test() { ptr.get_ref().fold.clone() }
+  else { T::ide() }
+}
+
+struct StaNode&lt;T&gt; where T: Monoid {
+  val: T,
+  fold: T,
+  sz: u64,
+  left: SharedPtr&lt;StaNode&lt;T&gt;&gt;,
+  right: SharedPtr&lt;StaNode&lt;T&gt;&gt;,
+  parent: WeakPtr&lt;StaNode&lt;T&gt;&gt;,
+} {
+  fn init(val: T) -&gt; Self {
+    StaNode {
+      val: val.clone(),
+      fold: val.clone(),
+      sz: 1,
+      left: SharedPtr::empty(),
+      right: SharedPtr::empty(),
+      parent: WeakPtr::empty(),
+    }
+  }
+  fn child(self: &amp;Self, dir: u64) -&gt; &amp;SharedPtr&lt;StaNode&lt;T&gt;&gt; {
+    if dir == 0 { &amp;self.left }
+    else { &amp;self.right }
+  }
+  fn fix(self: &amp;mut Self) -&gt; void {
+    self.sz = node_size(&amp;self.left) + 1 + node_size(&amp;self.right);
+    self.fold = node_fold(&amp;self.left).op(&amp;self.val).op(&amp;node_fold(&amp;self.right));
+  }
+}
+
+struct SplayTreeArray&lt;T&gt; where T: Monoid{
+  root: SharedPtr&lt;StaNode&lt;T&gt;&gt;,
+} {
+  fn set(par: &amp;SharedPtr&lt;StaNode&lt;T&gt;&gt;, dir: u64, mut new_ch: SharedPtr&lt;StaNode&lt;T&gt;&gt;) -&gt; SharedPtr&lt;StaNode&lt;T&gt;&gt; {
+    if new_ch.test() { new_ch.get_mut().parent = WeakPtr::from_shared(par); }
+    if dir == 0 {
+      swap(&amp;mut par.get_mut().left, &amp;mut new_ch);
+    }
+    else {
+      swap(&amp;mut par.get_mut().right, &amp;mut new_ch);
+    }
+    par.get_mut().fix();
+    new_ch
+  }
+  fn parent_dir(node: &amp;SharedPtr&lt;StaNode&lt;T&gt;&gt;) -&gt; u64 {
+    let par = node.get_ref().parent.lock();
+    if par.test() {
+      if par.get_ref().left == *node { 0 }
+      else { 1 }
+    }
+    else {
+      2
+    }
+  }
+  fn rotate(x: &amp;SharedPtr&lt;StaNode&lt;T&gt;&gt;, dir: u64) -&gt; void {
+    let p = x.get_ref().parent.lock();
+    let q = p.get_ref().parent.lock();
+    SplayTreeArray::set(&amp;p, dir ^ 1, x.get_ref().child(dir).clone());
+    let p_dir = SplayTreeArray::parent_dir(&amp;p);
+    if p_dir != 2 {
+      SplayTreeArray::set(&amp;q, p_dir, x.clone());
+    }
+    else {
+      x.get_mut().parent = WeakPtr::empty();
+    }
+    SplayTreeArray::set(x, dir, p);
+  }
+  fn splay(x: &amp;SharedPtr&lt;StaNode&lt;T&gt;&gt;) -&gt; void {
+    if x.test() {
+      for i = 0; !x.get_ref().parent.expired(); i = i + 1 {
+        let dir = SplayTreeArray::parent_dir(x);
+        let eir = SplayTreeArray::parent_dir(&amp;x.get_ref().parent.lock());
+        if eir == 2 {
+          SplayTreeArray::rotate(x, dir ^ 1);
+        }
+        else if dir == eir {
+          SplayTreeArray::rotate(&amp;x.get_ref().parent.lock(), eir ^ 1);
+          SplayTreeArray::rotate(x, eir ^ 1);
+        }
+        else {
+          SplayTreeArray::rotate(x, dir ^ 1);
+          SplayTreeArray::rotate(x, eir ^ 1);
+        }
+      }
+    }
+  }
+  fn find_(x: &amp;SharedPtr&lt;StaNode&lt;T&gt;&gt;, mut i: u64) -&gt; SharedPtr&lt;StaNode&lt;T&gt;&gt; {
+    let mut z = x.clone();
+    for cnt = 0; z.test(); cnt = cnt + 1 {
+      let left_size = node_size(&amp;z.get_ref().left);
+      if left_size == i {
+        SplayTreeArray::splay(&amp;z);
+        break;
+      }
+      else if left_size &lt; i {
+        i = i - (left_size + 1);
+        z = z.get_ref().right.clone();
+      }
+      else {
+        z = z.get_ref().left.clone();
+      }
+    }
+    z
+  }
+
+  fn split_(x: SharedPtr&lt;StaNode&lt;T&gt;&gt;, i: u64) -&gt; (SharedPtr&lt;StaNode&lt;T&gt;&gt;, SharedPtr&lt;StaNode&lt;T&gt;&gt;) {
+    if i == 0 { (SharedPtr::empty(), x) }
+    else if i == node_size(&amp;x) { (x, SharedPtr::empty()) }
+    else {
+      let l = SplayTreeArray::find_(&amp;x, i - 1);
+      let r = SplayTreeArray::set(&amp;l, 1, SharedPtr::empty());
+      (l, r)
+    }
+  }
+
+  fn merge_(mut l: SharedPtr&lt;StaNode&lt;T&gt;&gt;, r: SharedPtr&lt;StaNode&lt;T&gt;&gt;) -&gt; SharedPtr&lt;StaNode&lt;T&gt;&gt; {
+    if !l.test() { l = r; }
+    else if r.test() {
+      l = SplayTreeArray::find_(&amp;l, node_size(&amp;l) - 1);
+      SplayTreeArray::set(&amp;l, 1, r);
+    }
+    l
+  }
+  fn empty(t: T) -&gt; Self {
+    SplayTreeArray { root: SharedPtr::empty() }
+  }
+  fn once(t: T) -&gt; Self {
+    SplayTreeArray { root: SharedPtr::init(StaNode::init(t)) }
+  }
+  fn split(self: Self, i: u64) -&gt; (Self, Self) {
+    let (l, r) = SplayTreeArray::split_(self.root, i);
+    (SplayTreeArray { root: l }, SplayTreeArray { root: r })
+  }
+  fn merge(self: Self, right: Self) -&gt; Self {
+    SplayTreeArray { root: SplayTreeArray::merge_(self.root, right.root) }
+  }
+  fn size(self: &amp;Self) -&gt; u64 {
+    node_size(&amp;self.root)
+  }
+  fn get(self: &amp;mut Self, i: u64) -&gt; &amp;T {
+    self.root = SplayTreeArray::find_(&amp;self.root, i);
+    &amp;self.root.get_ref().val
+  }
+  fn fold(self: &amp;Self) -&gt; T {
+    node_fold(&amp;self.root)
+  }
+}
+
+#include &lt;iostream&gt;
+fn println&lt;T&gt;(t: &amp;T) -&gt; void $${std::cout &lt;&lt; $arg(t) &lt;&lt; std::endl;}$$
+
+impl Monoid for u64 {
+  fn op(self: &amp;u64, right: &amp;u64) -&gt; u64 {
+    *self + *right
+  }
+  fn ide() -&gt; u64 { 0 }
+}
+
+fn main() -&gt; void {
+  let mut t0 = SplayTreeArray::once(0);
+  let t1 = SplayTreeArray::once(1);
+  let t2 = SplayTreeArray::once(2);
+  let t3 = SplayTreeArray::once(3);
+  let t4 = SplayTreeArray::once(4);
+
+  println(&amp;t0.size());
+  t0 = t0.merge(t1);
+  println(&amp;t0.size());
+  t0 = t0.merge(t2);
+  println(&amp;t0.size());
+  t0 = t0.merge(t3);
+  println(&amp;t0.size());
+  t0 = t0.merge(t4);
+  println(&amp;t0.size());
+
+  println(t0.get(4));
+  println(t0.get(3));
+  println(t0.get(2));
+  println(t0.get(1));
+  println(t0.get(0));
+  println(&amp;t0.fold());
+}
+</code></pre>
+<h2 id="c-3"><a class="header" href="#c-3">C++</a></h2>
+<pre><code class="language-cpp">#include &lt;algorithm&gt;
+#include &lt;iostream&gt;
+#include &lt;memory&gt;
+#include &lt;memory&gt;
+#include &lt;tuple&gt;
+#include &lt;type_traits&gt;
+#include &lt;vector&gt;
+
+template &lt;class T, class = void&gt; struct StaNode;
+template &lt;class T, class = void&gt; struct SplayTreeArray;
+template&lt;class Self, class = void&gt; struct Monoid: std::false_type { };
+template&lt;class Self, class = void&gt; struct Index: std::false_type { };
+template&lt;class Self, class = void&gt; struct IndexMut: std::false_type { };
+template&lt;class Self, class = void&gt; struct Clone: std::false_type { };
+template&lt;class Self, class = void&gt; struct Iterator: std::false_type { };
+template&lt;&gt; struct Monoid&lt;unsigned long long, void&gt;: std::true_type {
+
+static unsigned long long op(unsigned long long const&amp; self, unsigned long long const&amp; right);
+static unsigned long long ide();
+};
+template&lt;class T&gt; struct Index&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+using Arg = unsigned long long;
+ using Output = T;
+
+static T const&amp; index(std::vector&lt;T&gt; const&amp; self, unsigned long long i);
+};
+template&lt;class T&gt; struct IndexMut&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+
+static T&amp; index_mut(std::vector&lt;T&gt;&amp; self, unsigned long long i);
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+using Item = T;
+
+
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt; const&amp;, void&gt;: std::true_type {
+using Item = T const&amp;;
+
+
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt;&amp;, void&gt;: std::true_type {
+using Item = T&amp;;
+
+
+};
+template&lt;class T&gt; void swap(T&amp; a, T&amp; b);
+template&lt;class T, class = std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt; unsigned long long node_size(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; ptr);
+template&lt;class T, class = std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt; T node_fold(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; ptr);
+template&lt;class T&gt; void println(T const&amp; t);
+int main();
+template &lt;class T&gt; struct SplayTreeArray&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt; {
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; root;
+SplayTreeArray(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; root):root(root) { }
+SplayTreeArray(SplayTreeArray&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+SplayTreeArray&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp; operator=(SplayTreeArray&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+static std::shared_ptr&lt;StaNode&lt;T&gt;&gt; merge_(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; l, std::shared_ptr&lt;StaNode&lt;T&gt;&gt; r) {
+if(!(bool)(l)) {
+ l = std::move(r);
+}
+else if((bool)(r)) {
+ l = SplayTreeArray&lt;T&gt;::find_(l, node_size&lt;T&gt;(l)-1ull);
+SplayTreeArray&lt;T&gt;::set(l, 1ull, std::move(r));
+}
+;
+return l;
+}
+
+static void rotate(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; x, unsigned long long dir) {
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; p = (*x).parent.lock();
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; q = (*p).parent.lock();
+SplayTreeArray&lt;T&gt;::set(p, dir^1ull, StaNode&lt;T&gt;::child((*x), dir));
+unsigned long long p_dir = SplayTreeArray&lt;T&gt;::parent_dir(p);
+if(p_dir != 2ull) {
+ SplayTreeArray&lt;T&gt;::set(q, p_dir, x);
+}
+else {
+(*x).parent = std::weak_ptr&lt;StaNode&lt;T&gt;&gt;();
+}
+;
+SplayTreeArray&lt;T&gt;::set(x, dir, std::move(p));
+}
+
+static std::shared_ptr&lt;StaNode&lt;T&gt;&gt; set(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; par, unsigned long long dir, std::shared_ptr&lt;StaNode&lt;T&gt;&gt; new_ch) {
+if((bool)(new_ch)) {
+ (*new_ch).parent = std::weak_ptr&lt;StaNode&lt;T&gt;&gt;(par);
+}
+;
+if(dir == 0ull) {
+ std::swap((*par).left, new_ch);
+}
+else {
+std::swap((*par).right, new_ch);
+}
+;
+StaNode&lt;T&gt;::fix((*par));
+return new_ch;
+}
+
+static SplayTreeArray&lt;T&gt; empty(T t) {
+return SplayTreeArray&lt;T&gt;(std::shared_ptr&lt;StaNode&lt;T&gt;&gt;());
+}
+
+static std::tuple&lt;SplayTreeArray&lt;T&gt;, SplayTreeArray&lt;T&gt;&gt; split(SplayTreeArray&lt;T&gt; self, unsigned long long i) {
+auto [l, r] = SplayTreeArray&lt;T&gt;::split_(std::move(self.root), i);
+return std::tuple&lt;SplayTreeArray&lt;T&gt;, SplayTreeArray&lt;T&gt;&gt;{ SplayTreeArray&lt;T&gt;(std::move(l)), SplayTreeArray&lt;T&gt;(std::move(r)) };
+}
+
+static unsigned long long size(SplayTreeArray&lt;T&gt; const&amp; self) {
+return node_size&lt;T&gt;(self.root);
+}
+
+static T fold(SplayTreeArray&lt;T&gt; const&amp; self) {
+return node_fold&lt;T&gt;(self.root);
+}
+
+static std::shared_ptr&lt;StaNode&lt;T&gt;&gt; find_(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; x, unsigned long long i) {
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; z = x;
+for(unsigned long long cnt = 0ull; (bool)(z); cnt = cnt+1ull){
+unsigned long long left_size = node_size&lt;T&gt;((*z).left);
+if(left_size == i) {
+SplayTreeArray&lt;T&gt;::splay(z);
+break;
+}
+else if(left_size &lt; i) {
+i = i-(left_size+1ull);
+z = (*z).right;
+}
+else {
+z = (*z).left;
+}
+;
+};
+return z;
+}
+
+static SplayTreeArray&lt;T&gt; merge(SplayTreeArray&lt;T&gt; self, SplayTreeArray&lt;T&gt; right) {
+return SplayTreeArray&lt;T&gt;(SplayTreeArray&lt;T&gt;::merge_(std::move(self.root), std::move(right.root)));
+}
+
+static T const&amp; get(SplayTreeArray&lt;T&gt;&amp; self, unsigned long long i) {
+self.root = SplayTreeArray&lt;T&gt;::find_(self.root, i);
+return (*self.root).val;
+}
+
+static SplayTreeArray&lt;T&gt; once(T t) {
+return SplayTreeArray&lt;T&gt;(std::shared_ptr&lt;StaNode&lt;T&gt;&gt;(new StaNode&lt;T&gt;(StaNode&lt;T&gt;::init(std::move(t)))));
+}
+
+static unsigned long long parent_dir(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; node) {
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; par = (*node).parent.lock();
+if((bool)(par)) {
+if((*par).left == node) {
+return 0ull;
+}
+else {
+return 1ull;
+}
+;
+}
+else {
+return 2ull;
+}
+;
+}
+
+static void splay(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; x) {
+if((bool)(x)) {
+for(unsigned long long i = 0ull; !(*x).parent.expired(); i = i+1ull){
+unsigned long long dir = SplayTreeArray&lt;T&gt;::parent_dir(x);
+unsigned long long eir = SplayTreeArray&lt;T&gt;::parent_dir((*x).parent.lock());
+if(eir == 2ull) {
+SplayTreeArray&lt;T&gt;::rotate(x, dir^1ull);
+}
+else if(dir == eir) {
+SplayTreeArray&lt;T&gt;::rotate((*x).parent.lock(), eir^1ull);
+SplayTreeArray&lt;T&gt;::rotate(x, eir^1ull);
+}
+else {
+SplayTreeArray&lt;T&gt;::rotate(x, dir^1ull);
+SplayTreeArray&lt;T&gt;::rotate(x, eir^1ull);
+}
+;
+};
+}
+;
+}
+
+static std::tuple&lt;std::shared_ptr&lt;StaNode&lt;T&gt;&gt;, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;&gt; split_(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; x, unsigned long long i) {
+if(i == 0ull) {
+return std::tuple&lt;std::shared_ptr&lt;StaNode&lt;T&gt;&gt;, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;&gt;{ std::shared_ptr&lt;StaNode&lt;T&gt;&gt;(), std::move(x) };
+}
+else if(i == node_size&lt;T&gt;(x)) {
+return std::tuple&lt;std::shared_ptr&lt;StaNode&lt;T&gt;&gt;, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;&gt;{ std::move(x), std::shared_ptr&lt;StaNode&lt;T&gt;&gt;() };
+}
+else {
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; l = SplayTreeArray&lt;T&gt;::find_(x, i-1ull);
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; r = SplayTreeArray&lt;T&gt;::set(l, 1ull, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;());
+return std::tuple&lt;std::shared_ptr&lt;StaNode&lt;T&gt;&gt;, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;&gt;{ std::move(l), std::move(r) };
+}
+;
+}
+} ;
+template &lt;class T&gt; struct StaNode&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt; {
+T val;
+T fold;
+unsigned long long sz;
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; left;
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; right;
+std::weak_ptr&lt;StaNode&lt;T&gt;&gt; parent;
+StaNode(T val, T fold, unsigned long long sz, std::shared_ptr&lt;StaNode&lt;T&gt;&gt; left, std::shared_ptr&lt;StaNode&lt;T&gt;&gt; right, std::weak_ptr&lt;StaNode&lt;T&gt;&gt; parent):val(val), fold(fold), sz(sz), left(left), right(right), parent(parent) { }
+StaNode(StaNode&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+StaNode&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp; operator=(StaNode&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+static std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; child(StaNode&lt;T&gt; const&amp; self, unsigned long long dir) {
+if(dir == 0ull) {
+return self.left;
+}
+else {
+return self.right;
+}
+;
+}
+
+static void fix(StaNode&lt;T&gt;&amp; self) {
+self.sz = node_size&lt;T&gt;(self.left)+1ull+node_size&lt;T&gt;(self.right);
+self.fold = Monoid&lt;T&gt;::op(Monoid&lt;T&gt;::op(node_fold&lt;T&gt;(self.left), self.val), node_fold&lt;T&gt;(self.right));
+}
+
+static StaNode&lt;T&gt; init(T val) {
+return StaNode&lt;T&gt;(val, val, 1ull, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;(), std::shared_ptr&lt;StaNode&lt;T&gt;&gt;(), std::weak_ptr&lt;StaNode&lt;T&gt;&gt;());
+}
+} ;
+unsigned long long Monoid&lt;unsigned long long, void&gt;::op(unsigned long long const&amp; self, unsigned long long const&amp; right) {
+return self+right;
+}
+
+unsigned long long Monoid&lt;unsigned long long, void&gt;::ide() {
+return 0ull;
+}
+template&lt;class T&gt; T const&amp; Index&lt;std::vector&lt;T&gt;, void&gt;::index(std::vector&lt;T&gt; const&amp; self, unsigned long long i) {
+return self.at(i);
+}
+template&lt;class T&gt; T&amp; IndexMut&lt;std::vector&lt;T&gt;, void&gt;::index_mut(std::vector&lt;T&gt;&amp; self, unsigned long long i) {
+return self.at(i);
+}
+template&lt;class T, class&gt; unsigned long long node_size(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; ptr) {
+if((bool)(ptr)) {
+return (*ptr).sz;
+}
+else {
+return 0ull;
+}
+;
+}
+template&lt;class T, class&gt; T node_fold(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; ptr) {
+if((bool)(ptr)) {
+return (*ptr).fold;
+}
+else {
+return Monoid&lt;T&gt;::ide();
+}
+;
+}
+int main() {
+SplayTreeArray&lt;unsigned long long&gt; t0 = SplayTreeArray&lt;unsigned long long&gt;::once(0ull);
+SplayTreeArray&lt;unsigned long long&gt; t1 = SplayTreeArray&lt;unsigned long long&gt;::once(1ull);
+SplayTreeArray&lt;unsigned long long&gt; t2 = SplayTreeArray&lt;unsigned long long&gt;::once(2ull);
+SplayTreeArray&lt;unsigned long long&gt; t3 = SplayTreeArray&lt;unsigned long long&gt;::once(3ull);
+SplayTreeArray&lt;unsigned long long&gt; t4 = SplayTreeArray&lt;unsigned long long&gt;::once(4ull);
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::size(t0) &lt;&lt; std::endl;;
+t0 = SplayTreeArray&lt;unsigned long long&gt;::merge(std::move(t0), std::move(t1));
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::size(t0) &lt;&lt; std::endl;;
+t0 = SplayTreeArray&lt;unsigned long long&gt;::merge(std::move(t0), std::move(t2));
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::size(t0) &lt;&lt; std::endl;;
+t0 = SplayTreeArray&lt;unsigned long long&gt;::merge(std::move(t0), std::move(t3));
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::size(t0) &lt;&lt; std::endl;;
+t0 = SplayTreeArray&lt;unsigned long long&gt;::merge(std::move(t0), std::move(t4));
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::size(t0) &lt;&lt; std::endl;;
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::get(t0, 4ull) &lt;&lt; std::endl;;
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::get(t0, 3ull) &lt;&lt; std::endl;;
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::get(t0, 2ull) &lt;&lt; std::endl;;
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::get(t0, 1ull) &lt;&lt; std::endl;;
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::get(t0, 0ull) &lt;&lt; std::endl;;
+std::cout &lt;&lt; SplayTreeArray&lt;unsigned long long&gt;::fold(t0) &lt;&lt; std::endl;;
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="sparse-table"><a class="header" href="#sparse-table">Sparse Table</a></h1>
+<h2 id="tests-4"><a class="header" href="#tests-4">Tests</a></h2>
+<ul>
+<li><a href="https://github.com/yosupo06/library-checker-problems">library-checker-problems</a>: <code>datastructure/staticrmq</code></li>
+</ul>
+<h2 id="niu-4"><a class="header" href="#niu-4">Niu</a></h2>
+<pre><code>import &quot;std/opes.niu&quot;
+import &quot;std/u64.niu&quot;
+import &quot;std/vec.niu&quot;
+
+trait Band {
+  fn ope(self: &amp;Self, right: &amp;Self) -&gt; Self;
+}
+
+fn __lg(n: u64) -&gt; u64 $${63 - __builtin_clzll($arg(n))}$$
+
+struct SparseTable&lt;T&gt; where T: Band {
+  table: Vec&lt;Vec&lt;T&gt;&gt;,
+  n: u64,
+} {
+  fn init(arr: Vec&lt;T&gt;) -&gt; Self {
+    let n = arr.len();
+    let mut table = Vec::new();
+    table.push(arr);
+    for k = 1; (1 &lt;&lt; k) &lt;= n; k = k + 1 {
+      let mut t = Vec::new();
+      for i = 0; i + (1 &lt;&lt; k) &lt;= n; i = i + 1 {
+        t.push(table[k - 1][i].ope(&amp;table[k - 1][i + (1 &lt;&lt; (k - 1))]));
+      }
+      table.push(t);
+    }
+    SparseTable { table: table, n: n }
+  }
+  fn query(self: &amp;Self, s: u64, t: u64) -&gt; T {
+    let k = __lg(t - s);
+    self.table[k][s].ope(&amp;self.table[k][t - (1 &lt;&lt; k)])
+  }
+}
+
+testfn(library-checker-problems:datastructure/staticrmq) sparse_table_staticrmq $${
+#include &lt;iostream&gt;
+using u64 = unsigned int long long;
+template&lt;&gt;
+struct Band&lt;u64, void&gt;: std::true_type {
+  static u64 ope(const u64&amp; a, const u64&amp; b) {
+    return std::min(a, b);
+  }
+};
+int main() {
+  std::cin.tie(nullptr);
+  int N, Q;
+  std::cin &gt;&gt; N &gt;&gt; Q;
+  std::vector&lt;u64&gt; a(N);
+  for(int i = 0; i &lt; N; i++) {
+    std::cin &gt;&gt; a[i];
+  }
+  using ST = SparseTable&lt;u64&gt;;
+  auto st = ST::init(std::move(a));
+  while(Q--) {
+    int l, r;
+    std::cin &gt;&gt; l &gt;&gt; r;
+    std::cout &lt;&lt; ST::query(st, l, r) &lt;&lt; '\n';
+  }
+}
+}$$
+
+
+</code></pre>
+<h2 id="c-4"><a class="header" href="#c-4">C++</a></h2>
+<pre><code class="language-cpp">#include &lt;algorithm&gt;
+#include &lt;tuple&gt;
+#include &lt;type_traits&gt;
+#include &lt;vector&gt;
+
+template &lt;class T, class = void&gt; struct SparseTable;
+template&lt;class Self, class = void&gt; struct Band: std::false_type { };
+template&lt;class Self, class = void&gt; struct Index: std::false_type { };
+template&lt;class Self, class = void&gt; struct IndexMut: std::false_type { };
+template&lt;class Self, class = void&gt; struct Clone: std::false_type { };
+template&lt;class Self, class = void&gt; struct Iterator: std::false_type { };
+template&lt;class T&gt; struct Index&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+using Output = T;
+ using Arg = unsigned long long;
+
+static T const&amp; index(std::vector&lt;T&gt; const&amp; self, unsigned long long i);
+};
+template&lt;class T&gt; struct IndexMut&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+
+static T&amp; index_mut(std::vector&lt;T&gt;&amp; self, unsigned long long i);
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+using Item = T;
+
+
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt; const&amp;, void&gt;: std::true_type {
+using Item = T const&amp;;
+
+
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt;&amp;, void&gt;: std::true_type {
+using Item = T&amp;;
+
+
+};
+unsigned long long __lg(unsigned long long n);
+template &lt;class T&gt; struct SparseTable&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Band&lt;T&gt;&gt;&gt;&gt; {
+std::vector&lt;std::vector&lt;T&gt;&gt; table;
+unsigned long long n;
+SparseTable(std::vector&lt;std::vector&lt;T&gt;&gt; table, unsigned long long n):table(table), n(n) { }
+SparseTable(SparseTable&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Band&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+SparseTable&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Band&lt;T&gt;&gt;&gt;&gt;&amp; operator=(SparseTable&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Band&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+static T query(SparseTable&lt;T&gt; const&amp; self, unsigned long long s, unsigned long long t) {
+unsigned long long k = 63 - __builtin_clzll(t-s);
+return Band&lt;T&gt;::ope(self.table[k][s], self.table[k][t-(1ull&lt;&lt;k)]);
+}
+
+static SparseTable&lt;T&gt; init(std::vector&lt;T&gt; arr) {
+unsigned long long n = arr.size();
+std::vector&lt;std::vector&lt;T&gt;&gt; table = std::vector&lt;std::vector&lt;T&gt;&gt;();
+table.push_back(std::move(arr));
+for(unsigned long long k = 1ull; (1ull&lt;&lt;k) &lt;= n; k = k+1ull){
+std::vector&lt;T&gt; t = std::vector&lt;T&gt;();
+for(unsigned long long i = 0ull; i+(1ull&lt;&lt;k) &lt;= n; i = i+1ull){
+t.push_back(Band&lt;T&gt;::ope(table[k-1ull][i], table[k-1ull][i+(1ull&lt;&lt;(k-1ull))]));
+};
+table.push_back(std::move(t));
+};
+return SparseTable&lt;T&gt;(std::move(table), n);
+}
+} ;
+template&lt;class T&gt; T const&amp; Index&lt;std::vector&lt;T&gt;, void&gt;::index(std::vector&lt;T&gt; const&amp; self, unsigned long long i) {
+return self.at(i);
+}
+template&lt;class T&gt; T&amp; IndexMut&lt;std::vector&lt;T&gt;, void&gt;::index_mut(std::vector&lt;T&gt;&amp; self, unsigned long long i) {
+return self.at(i);
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="union-find"><a class="header" href="#union-find">Union Find</a></h1>
+<h2 id="tests-5"><a class="header" href="#tests-5">Tests</a></h2>
+<ul>
+<li><a href="https://github.com/yosupo06/library-checker-problems">library-checker-problems</a>: <code>datastructure/unionfind</code></li>
+</ul>
+<h2 id="niu-5"><a class="header" href="#niu-5">Niu</a></h2>
+<pre><code>import &quot;std/vec.niu&quot;
+import &quot;std/u64.niu&quot;
+
+struct UnionFind {
+  par: Vec&lt;u64&gt;,
+  sz: Vec&lt;u64&gt;,
+  N: u64,
+} {
+  fn init(N: u64) -&gt; Self {
+    let mut par = Vec::new();
+    let mut sz = Vec::new();
+    for i = 0; i &lt; N; i = i + 1 {
+      par.push(N);
+      sz.push(1);
+    }
+    UnionFind { par: par, sz: sz, N: N, }
+  }
+  fn root(self: &amp;mut Self, x: u64) -&gt; u64 {
+    if self.par[x] == self.N {
+      x
+    }
+    else {
+      let r = self.root(self.par[x]);
+      self.par[x] = r;
+      r
+    }
+  }
+  fn size(self: &amp;mut Self, x: u64) -&gt; u64 {
+    self.sz[self.root(x)]
+  }
+  fn unite(self: &amp;mut Self, x: u64, y: u64) -&gt; void {
+    let xr = self.root(x);
+    let yr = self.root(y);
+    if xr != yr {
+      let xs = self.size(xr);
+      let ys = self.size(yr);
+      if xs &lt; ys {
+        self.sz[yr] = ys + xs;
+        self.par[xr] = yr;
+      }
+      else {
+        self.sz[xr] = ys + xs;
+        self.par[yr] = xr;
+      }
+    }
+  }
+}
+
+testfn(library-checker-problems:datastructure/unionfind) unionfind_test $${
+#include &lt;iostream&gt;
+int main() {
+  std::cin.tie(nullptr);
+  int N, Q;
+  std::cin &gt;&gt; N &gt;&gt; Q;
+  UnionFind uf = UnionFind::init(N);
+  while(Q--) {
+    int t, a, b;
+    std::cin &gt;&gt; t &gt;&gt; a &gt;&gt; b;
+    if(t == 0) {
+      UnionFind::unite(uf, a, b);
+    }
+    else {
+      std::cout &lt;&lt; (UnionFind::root(uf, a) == UnionFind::root(uf, b)) &lt;&lt; &quot;\n&quot;;
+    }
+  }
+}
+}$$
+</code></pre>
+<h2 id="c-5"><a class="header" href="#c-5">C++</a></h2>
+<pre><code class="language-cpp">#include &lt;algorithm&gt;
+#include &lt;tuple&gt;
+#include &lt;type_traits&gt;
+#include &lt;vector&gt;
+
+struct UnionFind;
+template&lt;class Self, class = void&gt; struct Index: std::false_type { };
+template&lt;class Self, class = void&gt; struct IndexMut: std::false_type { };
+template&lt;class Self, class = void&gt; struct Clone: std::false_type { };
+template&lt;class Self, class = void&gt; struct Iterator: std::false_type { };
+template&lt;class T&gt; struct Index&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+using Arg = unsigned long long;
+ using Output = T;
+
+static T const&amp; index(std::vector&lt;T&gt; const&amp; self, unsigned long long i);
+};
+template&lt;class T&gt; struct IndexMut&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+
+static T&amp; index_mut(std::vector&lt;T&gt;&amp; self, unsigned long long i);
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
+using Item = T;
+
+
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt; const&amp;, void&gt;: std::true_type {
+using Item = T const&amp;;
+
+
+};
+template&lt;class T&gt; struct Iterator&lt;std::vector&lt;T&gt;&amp;, void&gt;: std::true_type {
+using Item = T&amp;;
+
+
+};
+struct UnionFind {
+std::vector&lt;unsigned long long&gt; par;
+std::vector&lt;unsigned long long&gt; sz;
+unsigned long long N;
+UnionFind(std::vector&lt;unsigned long long&gt; par, std::vector&lt;unsigned long long&gt; sz, unsigned long long N):par(par), sz(sz), N(N) { }
+UnionFind(UnionFind&amp;&amp; right) = default;
+UnionFind&amp; operator=(UnionFind&amp;&amp; right) = default;
+static UnionFind init(unsigned long long N) {
+std::vector&lt;unsigned long long&gt; par = std::vector&lt;unsigned long long&gt;();
+std::vector&lt;unsigned long long&gt; sz = std::vector&lt;unsigned long long&gt;();
+for(unsigned long long i = 0ull; i &lt; N; i = i+1ull){
+par.push_back(N);
+sz.push_back(1ull);
+};
+return UnionFind(std::move(par), std::move(sz), N);
+}
+
+static void unite(UnionFind&amp; self, unsigned long long x, unsigned long long y) {
+unsigned long long xr = UnionFind::root(self, x);
+unsigned long long yr = UnionFind::root(self, y);
+if(xr != yr) {
+unsigned long long xs = UnionFind::size(self, xr);
+unsigned long long ys = UnionFind::size(self, yr);
+if(xs &lt; ys) {
+self.sz[yr] = ys+xs;
+self.par[xr] = yr;
+}
+else {
+self.sz[xr] = ys+xs;
+self.par[yr] = xr;
+}
+;
+}
+;
+}
+
+static unsigned long long root(UnionFind&amp; self, unsigned long long x) {
+if(self.par[x] == self.N) {
+return x;
+}
+else {
+unsigned long long r = UnionFind::root(self, self.par[x]);
+self.par[x] = r;
+return r;
+}
+;
+}
+
+static unsigned long long size(UnionFind&amp; self, unsigned long long x) {
+return self.sz[UnionFind::root(self, x)];
+}
+} ;
+template&lt;class T&gt; T const&amp; Index&lt;std::vector&lt;T&gt;, void&gt;::index(std::vector&lt;T&gt; const&amp; self, unsigned long long i) {
+return self.at(i);
+}
+template&lt;class T&gt; T&amp; IndexMut&lt;std::vector&lt;T&gt;, void&gt;::index_mut(std::vector&lt;T&gt;&amp; self, unsigned long long i) {
+return self.at(i);
+}
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            MathJax.Hub.Register.StartupHook('End', function() {
+                window.setTimeout(window.print, 100);
+            });
+        });
+        </script>
+    </body>
+</html>
