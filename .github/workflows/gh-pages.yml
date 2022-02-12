@@ -22,6 +22,7 @@ jobs:
         run: |
           export NIU_IMPORT_PATH="/tmp/niu/lib/;"
           export RUST_LOG=info
+          pip3 install toml Markdown colorlog jinja2
           niu test
           niu doc
 
