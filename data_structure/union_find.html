@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../math/index.html"><strong aria-hidden="true">1.</strong> Math</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../math/matrix.html"><strong aria-hidden="true">1.1.</strong> Matrix</a></li><li class="chapter-item expanded "><a href="../math/modint.html"><strong aria-hidden="true">1.2.</strong> Modint</a></li></ol></li><li class="chapter-item expanded "><a href="../data_structure/index.html"><strong aria-hidden="true">2.</strong> Data Structure</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../data_structure/segment_tree.html"><strong aria-hidden="true">2.1.</strong> Segment Tree</a></li><li class="chapter-item expanded "><a href="../data_structure/splay_tree_array.html"><strong aria-hidden="true">2.2.</strong> Splay Tree Array</a></li><li class="chapter-item expanded "><a href="../data_structure/sparse_table.html"><strong aria-hidden="true">2.3.</strong> Sparse Table</a></li><li class="chapter-item expanded "><a href="../data_structure/union_find.html" class="active"><strong aria-hidden="true">2.4.</strong> Union Find</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../math/index.html"><strong aria-hidden="true">1.</strong> Math</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../math/matrix.html"><strong aria-hidden="true">1.1.</strong> Matrix</a></li><li class="chapter-item expanded "><a href="../math/modint.html"><strong aria-hidden="true">1.2.</strong> Modint</a></li></ol></li><li class="chapter-item expanded "><a href="../data_structure/index.html"><strong aria-hidden="true">2.</strong> Data Structure</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../data_structure/splay_tree_array.html"><strong aria-hidden="true">2.1.</strong> Splay Tree Array</a></li><li class="chapter-item expanded "><a href="../data_structure/segment_tree.html"><strong aria-hidden="true">2.2.</strong> Segment Tree</a></li><li class="chapter-item expanded "><a href="../data_structure/union_find.html" class="active"><strong aria-hidden="true">2.3.</strong> Union Find</a></li><li class="chapter-item expanded "><a href="../data_structure/sparse_table.html"><strong aria-hidden="true">2.4.</strong> Sparse Table</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -222,8 +222,8 @@ template&lt;class Self, class = void&gt; struct IndexMut: std::false_type { };
 template&lt;class Self, class = void&gt; struct Clone: std::false_type { };
 template&lt;class Self, class = void&gt; struct Iterator: std::false_type { };
 template&lt;class T&gt; struct Index&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
-using Arg = unsigned long long;
- using Output = T;
+using Output = T;
+ using Arg = unsigned long long;
 
 static T const&amp; index(std::vector&lt;T&gt; const&amp; self, unsigned long long i);
 };
@@ -310,8 +310,11 @@ return self.at(i);
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../data_structure/sparse_table.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../data_structure/segment_tree.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../data_structure/sparse_table.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
                     </nav>
@@ -319,8 +322,11 @@ return self.at(i);
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../data_structure/sparse_table.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../data_structure/segment_tree.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../data_structure/sparse_table.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 

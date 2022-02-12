@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../math/index.html"><strong aria-hidden="true">1.</strong> Math</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../math/matrix.html"><strong aria-hidden="true">1.1.</strong> Matrix</a></li><li class="chapter-item expanded "><a href="../math/modint.html"><strong aria-hidden="true">1.2.</strong> Modint</a></li></ol></li><li class="chapter-item expanded "><a href="../data_structure/index.html"><strong aria-hidden="true">2.</strong> Data Structure</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../data_structure/segment_tree.html"><strong aria-hidden="true">2.1.</strong> Segment Tree</a></li><li class="chapter-item expanded "><a href="../data_structure/splay_tree_array.html"><strong aria-hidden="true">2.2.</strong> Splay Tree Array</a></li><li class="chapter-item expanded "><a href="../data_structure/sparse_table.html" class="active"><strong aria-hidden="true">2.3.</strong> Sparse Table</a></li><li class="chapter-item expanded "><a href="../data_structure/union_find.html"><strong aria-hidden="true">2.4.</strong> Union Find</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../math/index.html"><strong aria-hidden="true">1.</strong> Math</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../math/matrix.html"><strong aria-hidden="true">1.1.</strong> Matrix</a></li><li class="chapter-item expanded "><a href="../math/modint.html"><strong aria-hidden="true">1.2.</strong> Modint</a></li></ol></li><li class="chapter-item expanded "><a href="../data_structure/index.html"><strong aria-hidden="true">2.</strong> Data Structure</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../data_structure/splay_tree_array.html"><strong aria-hidden="true">2.1.</strong> Splay Tree Array</a></li><li class="chapter-item expanded "><a href="../data_structure/segment_tree.html"><strong aria-hidden="true">2.2.</strong> Segment Tree</a></li><li class="chapter-item expanded "><a href="../data_structure/union_find.html"><strong aria-hidden="true">2.3.</strong> Union Find</a></li><li class="chapter-item expanded "><a href="../data_structure/sparse_table.html" class="active"><strong aria-hidden="true">2.4.</strong> Sparse Table</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -248,11 +248,6 @@ unsigned long long n;
 SparseTable(std::vector&lt;std::vector&lt;T&gt;&gt; table, unsigned long long n):table(table), n(n) { }
 SparseTable(SparseTable&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Band&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
 SparseTable&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Band&lt;T&gt;&gt;&gt;&gt;&amp; operator=(SparseTable&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Band&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
-static T query(SparseTable&lt;T&gt; const&amp; self, unsigned long long s, unsigned long long t) {
-unsigned long long k = 63 - __builtin_clzll(t-s);
-return Band&lt;T&gt;::ope(self.table[k][s], self.table[k][t-(1ull&lt;&lt;k)]);
-}
-
 static SparseTable&lt;T&gt; init(std::vector&lt;T&gt; arr) {
 unsigned long long n = arr.size();
 std::vector&lt;std::vector&lt;T&gt;&gt; table = std::vector&lt;std::vector&lt;T&gt;&gt;();
@@ -265,6 +260,11 @@ t.push_back(Band&lt;T&gt;::ope(table[k-1ull][i], table[k-1ull][i+(1ull&lt;&lt;(k
 table.push_back(std::move(t));
 };
 return SparseTable&lt;T&gt;(std::move(table), n);
+}
+
+static T query(SparseTable&lt;T&gt; const&amp; self, unsigned long long s, unsigned long long t) {
+unsigned long long k = 63 - __builtin_clzll(t-s);
+return Band&lt;T&gt;::ope(self.table[k][s], self.table[k][t-(1ull&lt;&lt;k)]);
 }
 } ;
 template&lt;class T&gt; T const&amp; Index&lt;std::vector&lt;T&gt;, void&gt;::index(std::vector&lt;T&gt; const&amp; self, unsigned long long i) {
@@ -279,11 +279,8 @@ return self.at(i);
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../data_structure/splay_tree_array.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../data_structure/union_find.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
-                            </a>
-                            <a rel="next" href="../data_structure/union_find.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
                     </nav>
@@ -291,11 +288,8 @@ return self.at(i);
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../data_structure/splay_tree_array.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../data_structure/union_find.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
-                    </a>
-                    <a rel="next" href="../data_structure/union_find.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 

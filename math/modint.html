@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../math/index.html"><strong aria-hidden="true">1.</strong> Math</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../math/matrix.html"><strong aria-hidden="true">1.1.</strong> Matrix</a></li><li class="chapter-item expanded "><a href="../math/modint.html" class="active"><strong aria-hidden="true">1.2.</strong> Modint</a></li></ol></li><li class="chapter-item expanded "><a href="../data_structure/index.html"><strong aria-hidden="true">2.</strong> Data Structure</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../data_structure/segment_tree.html"><strong aria-hidden="true">2.1.</strong> Segment Tree</a></li><li class="chapter-item expanded "><a href="../data_structure/splay_tree_array.html"><strong aria-hidden="true">2.2.</strong> Splay Tree Array</a></li><li class="chapter-item expanded "><a href="../data_structure/sparse_table.html"><strong aria-hidden="true">2.3.</strong> Sparse Table</a></li><li class="chapter-item expanded "><a href="../data_structure/union_find.html"><strong aria-hidden="true">2.4.</strong> Union Find</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../math/index.html"><strong aria-hidden="true">1.</strong> Math</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../math/matrix.html"><strong aria-hidden="true">1.1.</strong> Matrix</a></li><li class="chapter-item expanded "><a href="../math/modint.html" class="active"><strong aria-hidden="true">1.2.</strong> Modint</a></li></ol></li><li class="chapter-item expanded "><a href="../data_structure/index.html"><strong aria-hidden="true">2.</strong> Data Structure</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../data_structure/splay_tree_array.html"><strong aria-hidden="true">2.1.</strong> Splay Tree Array</a></li><li class="chapter-item expanded "><a href="../data_structure/segment_tree.html"><strong aria-hidden="true">2.2.</strong> Segment Tree</a></li><li class="chapter-item expanded "><a href="../data_structure/union_find.html"><strong aria-hidden="true">2.3.</strong> Union Find</a></li><li class="chapter-item expanded "><a href="../data_structure/sparse_table.html"><strong aria-hidden="true">2.4.</strong> Sparse Table</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -259,6 +259,14 @@ unsigned long long a;
 Modint(unsigned long long a):a(a) { }
 Modint(Modint&lt;M, std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
 Modint&lt;M, std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt;&amp; operator=(Modint&lt;M, std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+static Modint&lt;M&gt; inv(Modint&lt;M&gt; const&amp; self) {
+return Modint&lt;M&gt;::pow(self, Mod&lt;M&gt;::m()-2ull);
+}
+
+static Modint&lt;M&gt; init(unsigned long long a) {
+return Modint&lt;M&gt;(a);
+}
+
 static Modint&lt;M&gt; pow(Modint&lt;M&gt; const&amp; self, unsigned long long p) {
 Modint&lt;M&gt; now = self;
 Modint&lt;M&gt; ans = Modint&lt;M&gt;::init(1ull);
@@ -270,14 +278,6 @@ if((exp&amp;1ull) == 1ull) {
 now = now*now;
 };
 return ans;
-}
-
-static Modint&lt;M&gt; init(unsigned long long a) {
-return Modint&lt;M&gt;(a);
-}
-
-static Modint&lt;M&gt; inv(Modint&lt;M&gt; const&amp; self) {
-return Modint&lt;M&gt;::pow(self, Mod&lt;M&gt;::m()-2ull);
 }
 Modint(const Modint&lt;M, std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt;&amp; right) :Modint(Clone&lt;Modint&lt;M, std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt;&gt;::clone(right)) {}
 Modint&lt;M, std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt;&amp; operator=(const Modint&lt;M, std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt;&amp; right) { return *this = Clone&lt;Modint&lt;M, std::enable_if_t&lt;std::conjunction_v&lt;Mod&lt;M&gt;&gt;&gt;&gt;&gt;::clone(right); }

@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../math/index.html"><strong aria-hidden="true">1.</strong> Math</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../math/matrix.html" class="active"><strong aria-hidden="true">1.1.</strong> Matrix</a></li><li class="chapter-item expanded "><a href="../math/modint.html"><strong aria-hidden="true">1.2.</strong> Modint</a></li></ol></li><li class="chapter-item expanded "><a href="../data_structure/index.html"><strong aria-hidden="true">2.</strong> Data Structure</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../data_structure/segment_tree.html"><strong aria-hidden="true">2.1.</strong> Segment Tree</a></li><li class="chapter-item expanded "><a href="../data_structure/splay_tree_array.html"><strong aria-hidden="true">2.2.</strong> Splay Tree Array</a></li><li class="chapter-item expanded "><a href="../data_structure/sparse_table.html"><strong aria-hidden="true">2.3.</strong> Sparse Table</a></li><li class="chapter-item expanded "><a href="../data_structure/union_find.html"><strong aria-hidden="true">2.4.</strong> Union Find</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../math/index.html"><strong aria-hidden="true">1.</strong> Math</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../math/matrix.html" class="active"><strong aria-hidden="true">1.1.</strong> Matrix</a></li><li class="chapter-item expanded "><a href="../math/modint.html"><strong aria-hidden="true">1.2.</strong> Modint</a></li></ol></li><li class="chapter-item expanded "><a href="../data_structure/index.html"><strong aria-hidden="true">2.</strong> Data Structure</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../data_structure/splay_tree_array.html"><strong aria-hidden="true">2.1.</strong> Splay Tree Array</a></li><li class="chapter-item expanded "><a href="../data_structure/segment_tree.html"><strong aria-hidden="true">2.2.</strong> Segment Tree</a></li><li class="chapter-item expanded "><a href="../data_structure/union_find.html"><strong aria-hidden="true">2.3.</strong> Union Find</a></li><li class="chapter-item expanded "><a href="../data_structure/sparse_table.html"><strong aria-hidden="true">2.4.</strong> Sparse Table</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -268,8 +268,8 @@ template&lt;class Self, class = void&gt; struct IndexMut: std::false_type { };
 template&lt;class Self, class = void&gt; struct Clone: std::false_type { };
 template&lt;class Self, class = void&gt; struct Iterator: std::false_type { };
 template&lt;class F&gt; struct Index&lt;Matrix&lt;F&gt;, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;: std::true_type {
-using Arg = unsigned long long;
- using Output = std::vector&lt;F&gt;;
+using Output = std::vector&lt;F&gt;;
+ using Arg = unsigned long long;
 
 static std::vector&lt;F&gt; const&amp; index(Matrix&lt;F&gt; const&amp; self, unsigned long long i);
 };
@@ -285,8 +285,8 @@ template&lt;class F&gt; struct Clone&lt;Matrix&lt;F&gt;, std::enable_if_t&lt;std
 static Matrix&lt;F&gt; clone(Matrix&lt;F&gt; const&amp; self);
 };
 template&lt;class T&gt; struct Index&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
-using Output = T;
- using Arg = unsigned long long;
+using Arg = unsigned long long;
+ using Output = T;
 
 static T const&amp; index(std::vector&lt;T&gt; const&amp; self, unsigned long long i);
 };
@@ -342,8 +342,8 @@ return Matrix&lt;F&gt;(std::vector&lt;std::vector&lt;F&gt;&gt;(h, std::vector&lt
 }
 Matrix(const Matrix&lt;F, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;&amp; right) :Matrix(Clone&lt;Matrix&lt;F, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;&gt;::clone(right)) {}
 Matrix&lt;F, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;&amp; operator=(const Matrix&lt;F, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;&amp; right) { return *this = Clone&lt;Matrix&lt;F, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;&gt;::clone(right); }
-typename std::enable_if&lt;Index&lt;Matrix&lt;F&gt;&gt;::value, const typename Index&lt;Matrix&lt;F&gt;&gt;::Output&amp;&gt;::type operator[](typename Index&lt;Matrix&lt;F&gt;&gt;::Arg k) const { return Index&lt;Matrix&lt;F&gt;&gt;::index(*this, k); }
 typename std::enable_if&lt;IndexMut&lt;Matrix&lt;F&gt;&gt;::value, typename Index&lt;Matrix&lt;F&gt;&gt;::Output&amp;&gt;::type operator[](typename Index&lt;Matrix&lt;F&gt;&gt;::Arg k) { return IndexMut&lt;Matrix&lt;F&gt;&gt;::index_mut(*this, k); }
+typename std::enable_if&lt;Index&lt;Matrix&lt;F&gt;&gt;::value, const typename Index&lt;Matrix&lt;F&gt;&gt;::Output&amp;&gt;::type operator[](typename Index&lt;Matrix&lt;F&gt;&gt;::Arg k) const { return Index&lt;Matrix&lt;F&gt;&gt;::index(*this, k); }
 } ;
 template&lt;class F&gt; std::vector&lt;F&gt; const&amp; Index&lt;Matrix&lt;F&gt;, std::enable_if_t&lt;std::conjunction_v&lt;Field&lt;F&gt;&gt;&gt;&gt;::index(Matrix&lt;F&gt; const&amp; self, unsigned long long i) {
 return self.a[i];
