@@ -16,11 +16,11 @@ jobs:
 
       - name: Setup niu
         run: |
-          git clone https://github.com/niuez/Niu niu
-          cargo install --path niu
+          git clone https://github.com/niuez/Niu /tmp/niu
+          cargo install --path /tmp/niu
       - name: test library and generate document
         run: |
-          export NIU_IMPORT_PATH="./niu/lib/;"
+          export NIU_IMPORT_PATH="/tmp/niu/lib/;"
           export RUST_LOG=info
           niu test
           niu doc
