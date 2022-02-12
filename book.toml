@@ -1,0 +1,11 @@
+[book]
+authors = ["niuez"]
+language = "ja"
+multilingual = false
+src = "md"
+title = "cp-niu-library"
+
+[build]
+build-dir = "docs"
+[output.html]
+mathjax-support=true

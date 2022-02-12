@@ -1,0 +1,143 @@
+import "std/vec.niu"
+import "std/u64.niu"
+import "std/i64.niu"
+
+trait Monoid {
+  fn ide() -> Self;
+  fn ope(self: &Self, right: &Self) -> Self;
+}
+
+struct SegmentTree<T> where T: Monoid {
+  node: Vec<T>,
+  n: u64,
+} {
+  fn init(arr: Vec<T>) -> Self {
+    let mut n = 1;
+    for i = 1; n < arr.len(); n = n * 2 {}
+    let mut node = Vec::init(2 * n, T#Monoid::ide());
+    let mut j = 0;
+    for x in arr {
+      node[j + n] = x;
+      j = j + 1;
+    }
+    for i = n - 1; i >= 1; i = i - 1 {
+      node[i] = node[i * 2].ope(&node[i * 2 + 1]);
+    }
+    SegmentTree { node: node, n: n, }
+  }
+
+  fn get(self: &Self, i: u64) -> &T {
+    &self.node[i + self.n]
+  }
+
+  fn update(self: &mut Self, p: u64, x: T) -> void {
+    self.node[p + self.n] = x;
+    for i = (p + self.n) / 2; i >= 1; i = i / 2 {
+      self.node[i] = self.node[i * 2].ope(&self.node[i * 2 + 1]);
+    }
+  }
+
+  fn sum(self: &mut Self, l: u64, r: u64) -> T {
+    let mut lx = T#Monoid::ide();
+    let mut rx = T#Monoid::ide();
+    let mut i = l + self.n;
+    for j = r + self.n; i < j; j = j >> 1 {
+      if (i & 1) == 1 {
+        lx = lx.ope(&self.node[i]);
+        i = i + 1;
+      }
+      if (j & 1) == 1 {
+        j = j - 1;
+        rx = self.node[j].ope(&rx);
+      }
+      i = i >> 1;
+    }
+    lx.ope(&rx)
+  }
+}
+
+testfn(library-checker-problems:datastructure/point_add_range_sum) segmenttree_point_add_range_sum $${
+#include <iostream>
+using i64 = long long;
+struct Am {
+  i64 a;
+};
+
+template<>
+struct Monoid<Am, void>: std::true_type {
+  static Am ide() { return Am { 0ll }; }
+  static Am ope(const Am& a, const Am& b) {
+    return Am { a.a + b.a };
+  }
+};
+
+int main() {
+  std::cin.tie(nullptr);
+  int N, Q;
+  std::cin >> N >> Q;
+  std::vector<Am> a(N, Am { 0 });
+  for(int i = 0; i < N; i++) {
+    long long v;
+    std::cin >> v;
+    a[i] = Am { v };
+  }
+  using Seg = SegmentTree<Am>;
+  auto seg = Seg::init(std::move(a));
+  while(Q--) {
+    int t, a, b;
+    std::cin >> t >> a >> b;
+    if(t == 0) {
+      Seg::update(seg, a, Am { Seg::get(seg, a).a + b });
+    }
+    else {
+      std::cout << Seg::sum(seg, a, b).a << '\n';
+    }
+  }
+}
+}$$
+
+testfn(library-checker-problems:datastructure/point_set_range_composite) segmenttree_point_set_range_composite $${
+#include <iostream>
+using i64 = long long;
+struct Fm {
+  i64 a;
+  i64 b;
+};
+
+const i64 MOD = 998244353;
+
+template<>
+struct Monoid<Fm, void>: std::true_type {
+  static Fm ide() { return Fm { 1ll, 0ll }; }
+  static Fm ope(const Fm& a, const Fm& b) {
+    return Fm { (a.a * b.a) % MOD, (a.b * b.a + b.b) % MOD };
+  }
+};
+
+int main() {
+  std::cin.tie(nullptr);
+  int N, Q;
+  std::cin >> N >> Q;
+  std::vector<Fm> a(N, Fm { 1, 0 });
+  for(int i = 0; i < N; i++) {
+    long long v, w;
+    std::cin >> v >> w;
+    a[i] = Fm { v, w };
+  }
+  using Seg = SegmentTree<Fm>;
+  auto seg = Seg::init(std::move(a));
+  while(Q--) {
+    int t, a, b, c;
+    std::cin >> t >> a >> b >> c;
+    if(t == 0) {
+      Seg::update(seg, a, Fm { b, c });
+    }
+    else {
+      Fm ans = Seg::sum(seg, a, b);
+      std::cout << (ans.a * c + ans.b) % MOD << '\n';
+    }
+  }
+}
+}$$
+
+
