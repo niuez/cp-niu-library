@@ -18,10 +18,10 @@ jobs:
         run: |
           git clone https://github.com/niuez/Niu niu
           cargo install --path niu
-          export NIU_IMPORT_PATH="./niu/lib/;"
-          export RUST_LOG=info
       - name: test library and generate document
         run: |
+          export NIU_IMPORT_PATH="./niu/lib/;"
+          export RUST_LOG=info
           niu test
           niu doc
 
