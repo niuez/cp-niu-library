@@ -1,0 +1,153 @@
+import "std/vec.niu"
+import "std/u64.niu"
+import "std/i64.niu"
+import "std/bool.niu"
+
+trait Monoid {
+  fn ide() -> Self;
+  fn ope(self: &Self, right: &Self) -> Self;
+}
+
+trait Effect<E> where E: Monoid {
+  fn effect(self: &Self, e: &E) -> Self;
+}
+
+fn builtin_ctz(n: u64) -> u64 $${__builtin_ctz($arg(n))}$$
+
+struct LazySegmentTree<T, E> where
+  E: Monoid,
+  T: Monoid,
+  T: Clone,
+  T: Effect<E>,
+{
+  node: Vec<T>,
+  lazy: Vec<E>,
+  flag: Vec<bool>,
+  n: u64,
+  h: u64,
+} {
+  fn init(arr: Vec<T>) -> Self {
+    let mut n = 1;
+    let mut h = 1;
+    for i = 0; n < arr.len(); i = i + 1 {
+      n = n << 1;
+      h = h + 1;
+    }
+    let mut node = Vec::init(2 * n, T::ide());
+    let mut lazy = Vec::init(2 * n, E::ide());
+    let mut flag = Vec::init(2 * n, false);
+    let mut j = 0;
+    for x in arr {
+      node[j + n] = x;
+      j = j + 1;
+    }
+    for i = n - 1; i >= 1; i = i - 1 {
+      node[i] = node[i * 2].ope(&node[i * 2 + 1]);
+    }
+    LazySegmentTree { node: node, lazy: lazy, flag: flag, n: n, h: h, }
+  }
+
+  fn eff(self: &mut Self, k: u64, e: &E) -> void {
+    if k < (self.n << 1) {
+      self.lazy[k] = self.lazy[k].ope(e);
+      self.flag[k] = true;
+    }
+  }
+
+  fn eval(self: &Self, k: u64) -> T {
+    if self.flag[k] {
+      self.node[k].effect(&self.lazy[k])
+    }
+    else {
+      self.node[k].clone()
+    }
+  }
+
+  fn push(self: &mut Self, k: u64) -> void {
+    if self.flag[k] {
+      self.node[k] = self.eval(k);
+      self.eff(k << 1, &self.lazy[k]);
+      self.eff((k << 1) | 1, &self.lazy[k]);
+      self.lazy[k] = E::ide();
+      self.flag[k] = false;
+    }
+  }
+
+  fn infuse(self: &mut Self, mut k: u64) -> void {
+    k = k >> builtin_ctz(k);
+    for i = k >> 1; i > 0; i = i >> 1 {
+      self.node[i] = self.eval(k << 1).ope(&self.eval((k << 1) | 1));
+    }
+  }
+
+  fn infiltrate1(self: &mut Self, k: u64) -> void {
+    if k != (self.n << 1) {
+      let kc = builtin_ctz(k);
+      for i = self.h - 1; i >= kc; i = i - 1 {
+        self.push(k >> i);
+      }
+    }
+  }
+
+  fn infiltrate2(self: &mut Self, l: u64, r: u64) -> void {
+    if r == self.n << 1 {
+      self.infiltrate1(l);
+    }
+    else {
+      let mut hh = self.h - 1;
+      let x = l ^ r;
+      for i = 0; x >> hh > 0; hh = hh - 1 {
+        self.push(l >> hh);
+      }
+      let lc = builtin_ctz(l);
+      for i = hh; i >= lc; i = i - 1 {
+        self.push(l >> i);
+      }
+      let rc = builtin_ctz(r);
+      for i = hh; i >= rc; i = i - 1 {
+        self.push(r >> i);
+      }
+    }
+  }
+
+  fn update(self: &mut Self, a: u64, b: u64, e: E) -> void {
+    let mut l = a + self.n;
+    let mut r = b + self.n;
+    self.infiltrate2(a, b);
+    for i = 0; l < r; i = i + 1 {
+      if (l & 1) == 1 {
+        self.eff(l, &e);
+        l = l + 1;
+      }
+      if (r & 1) == 1 {
+        r = r - 1;
+        self.eff(r, &e);
+      }
+      l = l >> 1;
+      r = r >> 1;
+    }
+    self.infuse(a + self.n);
+    self.infuse(b + self.n);
+  }
+
+  fn sum(self: &mut Self, a: u64, b: u64) -> T {
+    let mut l = a + self.n;
+    let mut r = b + self.n;
+    self.infiltrate2(a, b);
+    let mut lx = T::ide();
+    let mut rx = T::ide();
+    for i = 0; l < r; i = i + 1 {
+      if (l & 1) == 1 {
+        lx = lx.ope(&self.eval(l));
+        l = l + 1;
+      }
+      if (r & 1) == 1 {
+        r = r - 1;
+        rx = self.eval(r).ope(&rx);
+      }
+      l = l >> 1;
+      r = r >> 1;
+    }
+    lx.ope(&rx)
+  }
+}
