@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../math/index.html"><strong aria-hidden="true">1.</strong> Math</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../math/matrix.html"><strong aria-hidden="true">1.1.</strong> Matrix</a></li><li class="chapter-item expanded "><a href="../math/modint.html"><strong aria-hidden="true">1.2.</strong> Modint</a></li></ol></li><li class="chapter-item expanded "><a href="../data_structure/index.html"><strong aria-hidden="true">2.</strong> Data Structure</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../data_structure/splay_tree_array.html" class="active"><strong aria-hidden="true">2.1.</strong> Splay Tree Array</a></li><li class="chapter-item expanded "><a href="../data_structure/segment_tree.html"><strong aria-hidden="true">2.2.</strong> Segment Tree</a></li><li class="chapter-item expanded "><a href="../data_structure/union_find.html"><strong aria-hidden="true">2.3.</strong> Union Find</a></li><li class="chapter-item expanded "><a href="../data_structure/sparse_table.html"><strong aria-hidden="true">2.4.</strong> Sparse Table</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../math/index.html"><strong aria-hidden="true">1.</strong> Math</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../math/modint.html"><strong aria-hidden="true">1.1.</strong> Modint</a></li><li class="chapter-item expanded "><a href="../math/matrix.html"><strong aria-hidden="true">1.2.</strong> Matrix</a></li></ol></li><li class="chapter-item expanded "><a href="../data_structure/index.html"><strong aria-hidden="true">2.</strong> Data Structure</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../data_structure/splay_tree_array.html" class="active"><strong aria-hidden="true">2.1.</strong> Splay Tree Array</a></li><li class="chapter-item expanded "><a href="../data_structure/segment_tree.html"><strong aria-hidden="true">2.2.</strong> Segment Tree</a></li><li class="chapter-item expanded "><a href="../data_structure/union_find.html"><strong aria-hidden="true">2.3.</strong> Union Find</a></li><li class="chapter-item expanded "><a href="../data_structure/lazy_segment_tree.html"><strong aria-hidden="true">2.4.</strong> Lazy Segment Tree</a></li><li class="chapter-item expanded "><a href="../data_structure/sparse_table.html"><strong aria-hidden="true">2.5.</strong> Sparse Table</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -369,8 +369,8 @@ static unsigned long long op(unsigned long long const&amp; self, unsigned long l
 static unsigned long long ide();
 };
 template&lt;class T&gt; struct Index&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
-using Arg = unsigned long long;
- using Output = T;
+using Output = T;
+ using Arg = unsigned long long;
 
 static T const&amp; index(std::vector&lt;T&gt; const&amp; self, unsigned long long i);
 };
@@ -403,66 +403,16 @@ std::shared_ptr&lt;StaNode&lt;T&gt;&gt; root;
 SplayTreeArray(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; root):root(root) { }
 SplayTreeArray(SplayTreeArray&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
 SplayTreeArray&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp; operator=(SplayTreeArray&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
-static void splay(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; x) {
-if((bool)(x)) {
-for(unsigned long long i = 0ull; !(*x).parent.expired(); i = i+1ull){
-unsigned long long dir = SplayTreeArray&lt;T&gt;::parent_dir(x);
-unsigned long long eir = SplayTreeArray&lt;T&gt;::parent_dir((*x).parent.lock());
-if(eir == 2ull) {
-SplayTreeArray&lt;T&gt;::rotate(x, dir^1ull);
+static std::shared_ptr&lt;StaNode&lt;T&gt;&gt; merge_(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; l, std::shared_ptr&lt;StaNode&lt;T&gt;&gt; r) {
+if(!(bool)(l)) {
+ l = std::move(r);
 }
-else if(dir == eir) {
-SplayTreeArray&lt;T&gt;::rotate((*x).parent.lock(), eir^1ull);
-SplayTreeArray&lt;T&gt;::rotate(x, eir^1ull);
-}
-else {
-SplayTreeArray&lt;T&gt;::rotate(x, dir^1ull);
-SplayTreeArray&lt;T&gt;::rotate(x, eir^1ull);
+else if((bool)(r)) {
+ l = SplayTreeArray&lt;T&gt;::find_(l, node_size&lt;T&gt;(l)-1ull);
+SplayTreeArray&lt;T&gt;::set(l, 1ull, std::move(r));
 }
 ;
-};
-}
-;
-}
-
-static void rotate(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; x, unsigned long long dir) {
-std::shared_ptr&lt;StaNode&lt;T&gt;&gt; p = (*x).parent.lock();
-std::shared_ptr&lt;StaNode&lt;T&gt;&gt; q = (*p).parent.lock();
-SplayTreeArray&lt;T&gt;::set(p, dir^1ull, StaNode&lt;T&gt;::child((*x), dir));
-unsigned long long p_dir = SplayTreeArray&lt;T&gt;::parent_dir(p);
-if(p_dir != 2ull) {
- SplayTreeArray&lt;T&gt;::set(q, p_dir, x);
-}
-else {
-(*x).parent = std::weak_ptr&lt;StaNode&lt;T&gt;&gt;();
-}
-;
-SplayTreeArray&lt;T&gt;::set(x, dir, std::move(p));
-}
-
-static SplayTreeArray&lt;T&gt; empty(T t) {
-return SplayTreeArray&lt;T&gt;(std::shared_ptr&lt;StaNode&lt;T&gt;&gt;());
-}
-
-static std::tuple&lt;SplayTreeArray&lt;T&gt;, SplayTreeArray&lt;T&gt;&gt; split(SplayTreeArray&lt;T&gt; self, unsigned long long i) {
-auto [l, r] = SplayTreeArray&lt;T&gt;::split_(std::move(self.root), i);
-return std::tuple&lt;SplayTreeArray&lt;T&gt;, SplayTreeArray&lt;T&gt;&gt;{ SplayTreeArray&lt;T&gt;(std::move(l)), SplayTreeArray&lt;T&gt;(std::move(r)) };
-}
-
-static SplayTreeArray&lt;T&gt; once(T t) {
-return SplayTreeArray&lt;T&gt;(std::shared_ptr&lt;StaNode&lt;T&gt;&gt;(new StaNode&lt;T&gt;(StaNode&lt;T&gt;::init(std::move(t)))));
-}
-
-static SplayTreeArray&lt;T&gt; merge(SplayTreeArray&lt;T&gt; self, SplayTreeArray&lt;T&gt; right) {
-return SplayTreeArray&lt;T&gt;(SplayTreeArray&lt;T&gt;::merge_(std::move(self.root), std::move(right.root)));
-}
-
-static unsigned long long size(SplayTreeArray&lt;T&gt; const&amp; self) {
-return node_size&lt;T&gt;(self.root);
-}
-
-static T fold(SplayTreeArray&lt;T&gt; const&amp; self) {
-return node_fold&lt;T&gt;(self.root);
+return l;
 }
 
 static std::shared_ptr&lt;StaNode&lt;T&gt;&gt; set(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; par, unsigned long long dir, std::shared_ptr&lt;StaNode&lt;T&gt;&gt; new_ch) {
@@ -481,24 +431,29 @@ StaNode&lt;T&gt;::fix((*par));
 return new_ch;
 }
 
-static std::tuple&lt;std::shared_ptr&lt;StaNode&lt;T&gt;&gt;, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;&gt; split_(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; x, unsigned long long i) {
-if(i == 0ull) {
-return std::tuple&lt;std::shared_ptr&lt;StaNode&lt;T&gt;&gt;, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;&gt;{ std::shared_ptr&lt;StaNode&lt;T&gt;&gt;(), std::move(x) };
+static SplayTreeArray&lt;T&gt; merge(SplayTreeArray&lt;T&gt; self, SplayTreeArray&lt;T&gt; right) {
+return SplayTreeArray&lt;T&gt;(SplayTreeArray&lt;T&gt;::merge_(std::move(self.root), std::move(right.root)));
 }
-else if(i == node_size&lt;T&gt;(x)) {
-return std::tuple&lt;std::shared_ptr&lt;StaNode&lt;T&gt;&gt;, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;&gt;{ std::move(x), std::shared_ptr&lt;StaNode&lt;T&gt;&gt;() };
+
+static unsigned long long parent_dir(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; node) {
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; par = (*node).parent.lock();
+if((bool)(par)) {
+if((*par).left == node) {
+return 0ull;
 }
 else {
-std::shared_ptr&lt;StaNode&lt;T&gt;&gt; l = SplayTreeArray&lt;T&gt;::find_(x, i-1ull);
-std::shared_ptr&lt;StaNode&lt;T&gt;&gt; r = SplayTreeArray&lt;T&gt;::set(l, 1ull, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;());
-return std::tuple&lt;std::shared_ptr&lt;StaNode&lt;T&gt;&gt;, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;&gt;{ std::move(l), std::move(r) };
+return 1ull;
+}
+;
+}
+else {
+return 2ull;
 }
 ;
 }
 
-static T const&amp; get(SplayTreeArray&lt;T&gt;&amp; self, unsigned long long i) {
-self.root = SplayTreeArray&lt;T&gt;::find_(self.root, i);
-return (*self.root).val;
+static unsigned long long size(SplayTreeArray&lt;T&gt; const&amp; self) {
+return node_size&lt;T&gt;(self.root);
 }
 
 static std::shared_ptr&lt;StaNode&lt;T&gt;&gt; find_(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; x, unsigned long long i) {
@@ -521,33 +476,78 @@ z = (*z).left;
 return z;
 }
 
-static std::shared_ptr&lt;StaNode&lt;T&gt;&gt; merge_(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; l, std::shared_ptr&lt;StaNode&lt;T&gt;&gt; r) {
-if(!(bool)(l)) {
- l = std::move(r);
-}
-else if((bool)(r)) {
- l = SplayTreeArray&lt;T&gt;::find_(l, node_size&lt;T&gt;(l)-1ull);
-SplayTreeArray&lt;T&gt;::set(l, 1ull, std::move(r));
-}
-;
-return l;
+static T fold(SplayTreeArray&lt;T&gt; const&amp; self) {
+return node_fold&lt;T&gt;(self.root);
 }
 
-static unsigned long long parent_dir(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; node) {
-std::shared_ptr&lt;StaNode&lt;T&gt;&gt; par = (*node).parent.lock();
-if((bool)(par)) {
-if((*par).left == node) {
-return 0ull;
+static SplayTreeArray&lt;T&gt; empty(T t) {
+return SplayTreeArray&lt;T&gt;(std::shared_ptr&lt;StaNode&lt;T&gt;&gt;());
+}
+
+static SplayTreeArray&lt;T&gt; once(T t) {
+return SplayTreeArray&lt;T&gt;(std::shared_ptr&lt;StaNode&lt;T&gt;&gt;(new StaNode&lt;T&gt;(StaNode&lt;T&gt;::init(std::move(t)))));
+}
+
+static void splay(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; x) {
+if((bool)(x)) {
+for(unsigned long long i = 0ull; !(*x).parent.expired(); i = i+1ull){
+unsigned long long dir = SplayTreeArray&lt;T&gt;::parent_dir(x);
+unsigned long long eir = SplayTreeArray&lt;T&gt;::parent_dir((*x).parent.lock());
+if(eir == 2ull) {
+SplayTreeArray&lt;T&gt;::rotate(x, dir^1ull);
+}
+else if(dir == eir) {
+SplayTreeArray&lt;T&gt;::rotate((*x).parent.lock(), eir^1ull);
+SplayTreeArray&lt;T&gt;::rotate(x, eir^1ull);
 }
 else {
-return 1ull;
+SplayTreeArray&lt;T&gt;::rotate(x, dir^1ull);
+SplayTreeArray&lt;T&gt;::rotate(x, eir^1ull);
+}
+;
+};
 }
 ;
 }
+
+static std::tuple&lt;std::shared_ptr&lt;StaNode&lt;T&gt;&gt;, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;&gt; split_(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; x, unsigned long long i) {
+if(i == 0ull) {
+return std::tuple&lt;std::shared_ptr&lt;StaNode&lt;T&gt;&gt;, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;&gt;{ std::shared_ptr&lt;StaNode&lt;T&gt;&gt;(), std::move(x) };
+}
+else if(i == node_size&lt;T&gt;(x)) {
+return std::tuple&lt;std::shared_ptr&lt;StaNode&lt;T&gt;&gt;, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;&gt;{ std::move(x), std::shared_ptr&lt;StaNode&lt;T&gt;&gt;() };
+}
 else {
-return 2ull;
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; l = SplayTreeArray&lt;T&gt;::find_(x, i-1ull);
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; r = SplayTreeArray&lt;T&gt;::set(l, 1ull, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;());
+return std::tuple&lt;std::shared_ptr&lt;StaNode&lt;T&gt;&gt;, std::shared_ptr&lt;StaNode&lt;T&gt;&gt;&gt;{ std::move(l), std::move(r) };
 }
 ;
+}
+
+static void rotate(std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; x, unsigned long long dir) {
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; p = (*x).parent.lock();
+std::shared_ptr&lt;StaNode&lt;T&gt;&gt; q = (*p).parent.lock();
+SplayTreeArray&lt;T&gt;::set(p, dir^1ull, StaNode&lt;T&gt;::child((*x), dir));
+unsigned long long p_dir = SplayTreeArray&lt;T&gt;::parent_dir(p);
+if(p_dir != 2ull) {
+ SplayTreeArray&lt;T&gt;::set(q, p_dir, x);
+}
+else {
+(*x).parent = std::weak_ptr&lt;StaNode&lt;T&gt;&gt;();
+}
+;
+SplayTreeArray&lt;T&gt;::set(x, dir, std::move(p));
+}
+
+static std::tuple&lt;SplayTreeArray&lt;T&gt;, SplayTreeArray&lt;T&gt;&gt; split(SplayTreeArray&lt;T&gt; self, unsigned long long i) {
+auto [l, r] = SplayTreeArray&lt;T&gt;::split_(std::move(self.root), i);
+return std::tuple&lt;SplayTreeArray&lt;T&gt;, SplayTreeArray&lt;T&gt;&gt;{ SplayTreeArray&lt;T&gt;(std::move(l)), SplayTreeArray&lt;T&gt;(std::move(r)) };
+}
+
+static T const&amp; get(SplayTreeArray&lt;T&gt;&amp; self, unsigned long long i) {
+self.root = SplayTreeArray&lt;T&gt;::find_(self.root, i);
+return (*self.root).val;
 }
 } ;
 template &lt;class T&gt; struct StaNode&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt; {
@@ -560,6 +560,11 @@ std::weak_ptr&lt;StaNode&lt;T&gt;&gt; parent;
 StaNode(T val, T fold, unsigned long long sz, std::shared_ptr&lt;StaNode&lt;T&gt;&gt; left, std::shared_ptr&lt;StaNode&lt;T&gt;&gt; right, std::weak_ptr&lt;StaNode&lt;T&gt;&gt; parent):val(val), fold(fold), sz(sz), left(left), right(right), parent(parent) { }
 StaNode(StaNode&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
 StaNode&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp; operator=(StaNode&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
+static void fix(StaNode&lt;T&gt;&amp; self) {
+self.sz = node_size&lt;T&gt;(self.left)+1ull+node_size&lt;T&gt;(self.right);
+self.fold = Monoid&lt;T&gt;::op(Monoid&lt;T&gt;::op(node_fold&lt;T&gt;(self.left), self.val), node_fold&lt;T&gt;(self.right));
+}
+
 static std::shared_ptr&lt;StaNode&lt;T&gt;&gt; const&amp; child(StaNode&lt;T&gt; const&amp; self, unsigned long long dir) {
 if(dir == 0ull) {
 return self.left;
@@ -568,11 +573,6 @@ else {
 return self.right;
 }
 ;
-}
-
-static void fix(StaNode&lt;T&gt;&amp; self) {
-self.sz = node_size&lt;T&gt;(self.left)+1ull+node_size&lt;T&gt;(self.right);
-self.fold = Monoid&lt;T&gt;::op(Monoid&lt;T&gt;::op(node_fold&lt;T&gt;(self.left), self.val), node_fold&lt;T&gt;(self.right));
 }
 
 static StaNode&lt;T&gt; init(T val) {

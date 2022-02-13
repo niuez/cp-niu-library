@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../math/index.html"><strong aria-hidden="true">1.</strong> Math</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../math/matrix.html"><strong aria-hidden="true">1.1.</strong> Matrix</a></li><li class="chapter-item expanded "><a href="../math/modint.html"><strong aria-hidden="true">1.2.</strong> Modint</a></li></ol></li><li class="chapter-item expanded "><a href="../data_structure/index.html"><strong aria-hidden="true">2.</strong> Data Structure</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../data_structure/splay_tree_array.html"><strong aria-hidden="true">2.1.</strong> Splay Tree Array</a></li><li class="chapter-item expanded "><a href="../data_structure/segment_tree.html"><strong aria-hidden="true">2.2.</strong> Segment Tree</a></li><li class="chapter-item expanded "><a href="../data_structure/union_find.html" class="active"><strong aria-hidden="true">2.3.</strong> Union Find</a></li><li class="chapter-item expanded "><a href="../data_structure/sparse_table.html"><strong aria-hidden="true">2.4.</strong> Sparse Table</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../math/index.html"><strong aria-hidden="true">1.</strong> Math</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../math/modint.html"><strong aria-hidden="true">1.1.</strong> Modint</a></li><li class="chapter-item expanded "><a href="../math/matrix.html"><strong aria-hidden="true">1.2.</strong> Matrix</a></li></ol></li><li class="chapter-item expanded "><a href="../data_structure/index.html"><strong aria-hidden="true">2.</strong> Data Structure</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../data_structure/splay_tree_array.html"><strong aria-hidden="true">2.1.</strong> Splay Tree Array</a></li><li class="chapter-item expanded "><a href="../data_structure/segment_tree.html"><strong aria-hidden="true">2.2.</strong> Segment Tree</a></li><li class="chapter-item expanded "><a href="../data_structure/union_find.html" class="active"><strong aria-hidden="true">2.3.</strong> Union Find</a></li><li class="chapter-item expanded "><a href="../data_structure/lazy_segment_tree.html"><strong aria-hidden="true">2.4.</strong> Lazy Segment Tree</a></li><li class="chapter-item expanded "><a href="../data_structure/sparse_table.html"><strong aria-hidden="true">2.5.</strong> Sparse Table</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -222,8 +222,8 @@ template&lt;class Self, class = void&gt; struct IndexMut: std::false_type { };
 template&lt;class Self, class = void&gt; struct Clone: std::false_type { };
 template&lt;class Self, class = void&gt; struct Iterator: std::false_type { };
 template&lt;class T&gt; struct Index&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
-using Output = T;
- using Arg = unsigned long long;
+using Arg = unsigned long long;
+ using Output = T;
 
 static T const&amp; index(std::vector&lt;T&gt; const&amp; self, unsigned long long i);
 };
@@ -253,6 +253,22 @@ unsigned long long N;
 UnionFind(std::vector&lt;unsigned long long&gt; par, std::vector&lt;unsigned long long&gt; sz, unsigned long long N):par(par), sz(sz), N(N) { }
 UnionFind(UnionFind&amp;&amp; right) = default;
 UnionFind&amp; operator=(UnionFind&amp;&amp; right) = default;
+static unsigned long long root(UnionFind&amp; self, unsigned long long x) {
+if(self.par[x] == self.N) {
+return x;
+}
+else {
+unsigned long long r = UnionFind::root(self, self.par[x]);
+self.par[x] = r;
+return r;
+}
+;
+}
+
+static unsigned long long size(UnionFind&amp; self, unsigned long long x) {
+return self.sz[UnionFind::root(self, x)];
+}
+
 static UnionFind init(unsigned long long N) {
 std::vector&lt;unsigned long long&gt; par = std::vector&lt;unsigned long long&gt;();
 std::vector&lt;unsigned long long&gt; sz = std::vector&lt;unsigned long long&gt;();
@@ -281,22 +297,6 @@ self.par[yr] = xr;
 }
 ;
 }
-
-static unsigned long long root(UnionFind&amp; self, unsigned long long x) {
-if(self.par[x] == self.N) {
-return x;
-}
-else {
-unsigned long long r = UnionFind::root(self, self.par[x]);
-self.par[x] = r;
-return r;
-}
-;
-}
-
-static unsigned long long size(UnionFind&amp; self, unsigned long long x) {
-return self.sz[UnionFind::root(self, x)];
-}
 } ;
 template&lt;class T&gt; T const&amp; Index&lt;std::vector&lt;T&gt;, void&gt;::index(std::vector&lt;T&gt; const&amp; self, unsigned long long i) {
 return self.at(i);
@@ -313,7 +313,7 @@ return self.at(i);
                             <a rel="prev" href="../data_structure/segment_tree.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                            <a rel="next" href="../data_structure/sparse_table.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../data_structure/lazy_segment_tree.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
@@ -325,7 +325,7 @@ return self.at(i);
                     <a rel="prev" href="../data_structure/segment_tree.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next" href="../data_structure/sparse_table.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../data_structure/lazy_segment_tree.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

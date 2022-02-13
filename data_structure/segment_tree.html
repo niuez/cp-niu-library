@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../math/index.html"><strong aria-hidden="true">1.</strong> Math</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../math/matrix.html"><strong aria-hidden="true">1.1.</strong> Matrix</a></li><li class="chapter-item expanded "><a href="../math/modint.html"><strong aria-hidden="true">1.2.</strong> Modint</a></li></ol></li><li class="chapter-item expanded "><a href="../data_structure/index.html"><strong aria-hidden="true">2.</strong> Data Structure</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../data_structure/splay_tree_array.html"><strong aria-hidden="true">2.1.</strong> Splay Tree Array</a></li><li class="chapter-item expanded "><a href="../data_structure/segment_tree.html" class="active"><strong aria-hidden="true">2.2.</strong> Segment Tree</a></li><li class="chapter-item expanded "><a href="../data_structure/union_find.html"><strong aria-hidden="true">2.3.</strong> Union Find</a></li><li class="chapter-item expanded "><a href="../data_structure/sparse_table.html"><strong aria-hidden="true">2.4.</strong> Sparse Table</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../math/index.html"><strong aria-hidden="true">1.</strong> Math</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../math/modint.html"><strong aria-hidden="true">1.1.</strong> Modint</a></li><li class="chapter-item expanded "><a href="../math/matrix.html"><strong aria-hidden="true">1.2.</strong> Matrix</a></li></ol></li><li class="chapter-item expanded "><a href="../data_structure/index.html"><strong aria-hidden="true">2.</strong> Data Structure</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../data_structure/splay_tree_array.html"><strong aria-hidden="true">2.1.</strong> Splay Tree Array</a></li><li class="chapter-item expanded "><a href="../data_structure/segment_tree.html" class="active"><strong aria-hidden="true">2.2.</strong> Segment Tree</a></li><li class="chapter-item expanded "><a href="../data_structure/union_find.html"><strong aria-hidden="true">2.3.</strong> Union Find</a></li><li class="chapter-item expanded "><a href="../data_structure/lazy_segment_tree.html"><strong aria-hidden="true">2.4.</strong> Lazy Segment Tree</a></li><li class="chapter-item expanded "><a href="../data_structure/sparse_table.html"><strong aria-hidden="true">2.5.</strong> Sparse Table</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -300,8 +300,8 @@ template&lt;class Self, class = void&gt; struct IndexMut: std::false_type { };
 template&lt;class Self, class = void&gt; struct Clone: std::false_type { };
 template&lt;class Self, class = void&gt; struct Iterator: std::false_type { };
 template&lt;class T&gt; struct Index&lt;std::vector&lt;T&gt;, void&gt;: std::true_type {
-using Arg = unsigned long long;
- using Output = T;
+using Output = T;
+ using Arg = unsigned long long;
 
 static T const&amp; index(std::vector&lt;T&gt; const&amp; self, unsigned long long i);
 };
@@ -330,31 +330,8 @@ unsigned long long n;
 SegmentTree(std::vector&lt;T&gt; node, unsigned long long n):node(node), n(n) { }
 SegmentTree(SegmentTree&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
 SegmentTree&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp; operator=(SegmentTree&lt;T, std::enable_if_t&lt;std::conjunction_v&lt;Monoid&lt;T&gt;&gt;&gt;&gt;&amp;&amp; right) = default;
-static void update(SegmentTree&lt;T&gt;&amp; self, unsigned long long p, T x) {
-self.node[p+self.n] = std::move(x);
-for(unsigned long long i = (p+self.n)/2ull; i &gt;= 1ull; i = i/2ull){
-self.node[i] = Monoid&lt;T&gt;::ope(self.node[i*2ull], self.node[i*2ull+1ull]);
-};
-}
-
-static SegmentTree&lt;T&gt; init(std::vector&lt;T&gt; arr) {
-unsigned long long n = 1ull;
-for(unsigned long long i = 1ull; n &lt; arr.size(); n = n*2ull){
-};
-std::vector&lt;T&gt; node = std::vector&lt;T&gt;(2ull*n, Monoid&lt;T&gt;::ide());
-unsigned long long j = 0ull;
-{
-auto&amp;&amp; __range6958 = std::move(arr);
-for(auto __begin6958 = std::make_move_iterator(std::begin(__range6958)), __end6958 = std::make_move_iterator(std::end(__range6958)); __begin6958 != __end6958; ++__begin6958){
-T x = *__begin6958;
-node[j+n] = std::move(x);
-j = j+1ull;
-}
-};
-for(unsigned long long i = n-1ull; i &gt;= 1ull; i = i-1ull){
-node[i] = Monoid&lt;T&gt;::ope(node[i*2ull], node[i*2ull+1ull]);
-};
-return SegmentTree&lt;T&gt;(std::move(node), n);
+static T const&amp; get(SegmentTree&lt;T&gt; const&amp; self, unsigned long long i) {
+return self.node[i+self.n];
 }
 
 static T sum(SegmentTree&lt;T&gt;&amp; self, unsigned long long l, unsigned long long r) {
@@ -377,8 +354,31 @@ i = i&gt;&gt;1ull;
 return Monoid&lt;T&gt;::ope(lx, rx);
 }
 
-static T const&amp; get(SegmentTree&lt;T&gt; const&amp; self, unsigned long long i) {
-return self.node[i+self.n];
+static SegmentTree&lt;T&gt; init(std::vector&lt;T&gt; arr) {
+unsigned long long n = 1ull;
+for(unsigned long long i = 1ull; n &lt; arr.size(); n = n*2ull){
+};
+std::vector&lt;T&gt; node = std::vector&lt;T&gt;(2ull*n, Monoid&lt;T&gt;::ide());
+unsigned long long j = 0ull;
+{
+auto&amp;&amp; __range6959 = std::move(arr);
+for(auto __begin6959 = std::make_move_iterator(std::begin(__range6959)), __end6959 = std::make_move_iterator(std::end(__range6959)); __begin6959 != __end6959; ++__begin6959){
+T x = *__begin6959;
+node[j+n] = std::move(x);
+j = j+1ull;
+}
+};
+for(unsigned long long i = n-1ull; i &gt;= 1ull; i = i-1ull){
+node[i] = Monoid&lt;T&gt;::ope(node[i*2ull], node[i*2ull+1ull]);
+};
+return SegmentTree&lt;T&gt;(std::move(node), n);
+}
+
+static void update(SegmentTree&lt;T&gt;&amp; self, unsigned long long p, T x) {
+self.node[p+self.n] = std::move(x);
+for(unsigned long long i = (p+self.n)/2ull; i &gt;= 1ull; i = i/2ull){
+self.node[i] = Monoid&lt;T&gt;::ope(self.node[i*2ull], self.node[i*2ull+1ull]);
+};
 }
 } ;
 template&lt;class T&gt; T const&amp; Index&lt;std::vector&lt;T&gt;, void&gt;::index(std::vector&lt;T&gt; const&amp; self, unsigned long long i) {
