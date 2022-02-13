@@ -41,7 +41,8 @@ struct LazySegmentTree<T, E> where
       node[j + n] = x;
       j = j + 1;
     }
-    for i = n - 1; i >= 1; i = i - 1 {
+    for i = n; i > 1; i {
+      i = i - 1;
       node[i] = node[i * 2].ope(&node[i * 2 + 1]);
     }
     LazySegmentTree { node: node, lazy: lazy, flag: flag, n: n, h: h, }
@@ -76,14 +77,15 @@ struct LazySegmentTree<T, E> where
   fn infuse(self: &mut Self, mut k: u64) -> void {
     k = k >> builtin_ctz(k);
     for i = k >> 1; i > 0; i = i >> 1 {
-      self.node[i] = self.eval(k << 1).ope(&self.eval((k << 1) | 1));
+      self.node[i] = self.eval(i << 1).ope(&self.eval((i << 1) | 1));
     }
   }
 
   fn infiltrate1(self: &mut Self, k: u64) -> void {
     if k != (self.n << 1) {
       let kc = builtin_ctz(k);
-      for i = self.h - 1; i >= kc; i = i - 1 {
+      for i = self.h; i > kc; i {
+        i = i - 1;
         self.push(k >> i);
       }
     }
@@ -96,15 +98,17 @@ struct LazySegmentTree<T, E> where
     else {
       let mut hh = self.h - 1;
       let x = l ^ r;
-      for i = 0; x >> hh > 0; hh = hh - 1 {
+      for i = 0; (x >> hh) > 0; hh = hh - 1 {
         self.push(l >> hh);
       }
       let lc = builtin_ctz(l);
-      for i = hh; i >= lc; i = i - 1 {
+      for i = hh + 1; i > lc; i {
+        i = i - 1;
         self.push(l >> i);
       }
       let rc = builtin_ctz(r);
-      for i = hh; i >= rc; i = i - 1 {
+      for i = hh + 1; i > rc; i {
+        i = i - 1;
         self.push(r >> i);
       }
     }
@@ -113,7 +117,7 @@ struct LazySegmentTree<T, E> where
   fn update(self: &mut Self, a: u64, b: u64, e: E) -> void {
     let mut l = a + self.n;
     let mut r = b + self.n;
-    self.infiltrate2(a, b);
+    self.infiltrate2(l, r);
     for i = 0; l < r; i = i + 1 {
       if (l & 1) == 1 {
         self.eff(l, &e);
@@ -133,7 +137,7 @@ struct LazySegmentTree<T, E> where
   fn sum(self: &mut Self, a: u64, b: u64) -> T {
     let mut l = a + self.n;
     let mut r = b + self.n;
-    self.infiltrate2(a, b);
+    self.infiltrate2(l, r);
     let mut lx = T::ide();
     let mut rx = T::ide();
     for i = 0; l < r; i = i + 1 {
@@ -151,3 +155,73 @@ struct LazySegmentTree<T, E> where
     lx.ope(&rx)
   }
 }
+
+testfn(library-checker-problems:datastructure/range_affine_range_sum) lazy_segmenttree_range_affine_range_sum $${
+#include <iostream>
+using i64 = long long;
+const i64 MOD = 998244353;
+struct Sm {
+  i64 v;
+  i64 s;
+};
+template<>
+struct Monoid<Sm, void>: std::true_type {
+  static Sm ope(Sm a, Sm b) {
+    return Sm { (a.v + b.v) % MOD, a.s + b.s };
+  }
+  static Sm ide() {
+    return Sm { 0, 0 };
+  }
+};
+
+struct Eff {
+  i64 b;
+  i64 c;
+};
+template<>
+struct Monoid<Eff, void>: std::true_type {
+  static Eff ope(Eff a, Eff b) {
+    return Eff { (b.b * a.b) % MOD, (b.b * a.c + b.c) % MOD };
+  }
+  static Eff ide() {
+    return Eff { 1, 0 };
+  }
+};
+
+template<>
+struct Effect<Sm, Eff, void>: std::true_type {
+  static Sm effect(Sm a, Eff b) {
+    return Sm { (b.b * a.v + b.c * a.s) % MOD, a.s };
+  }
+};
+using std::cout;
+using std::cin;
+
+int main() {
+  i64 N, Q;
+  cin >> N >> Q;
+  std::vector<Sm> A(N);
+  for(i64 i = 0;i < N;i++) {
+    i64 a;
+    cin >> a;
+    A[i].v = a;
+    A[i].s = 1;
+  }
+  using Seg = LazySegmentTree<Sm, Eff>;
+  Seg seg = Seg::init(A);
+  while(Q--) {
+    i64 t;
+    cin >> t;
+    if(t == 0) {
+      i64 l, r, b, c;
+      cin >> l >> r >> b >> c;
+      Seg::update(seg, l, r, Eff { b, c });
+    }
+    else {
+      i64 l, r;
+      cin >> l >> r;
+      cout << Seg::sum(seg, l, r).v << "\n";
+    }
+  }
+}
+}$$
